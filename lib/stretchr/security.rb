@@ -1,6 +1,1 @@
-class Stretchr::Security
-	class << self
-
-
-	end
-end
+require_relative 'security/signatory'

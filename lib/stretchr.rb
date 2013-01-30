@@ -1,19 +1,35 @@
+
 class Stretchr
-	def initialize(attributes = {})
-		#current supported attributes are project, private_key, public _key and version
-    	attributes.each do |name, value|
+
+  require 'stretchr/security'
+  require 'stretchr/transporters'
+
+  # some errors
+
+  class StretchrError < StandardError; end
+  class MissingAttributeError < StretchrError; end
+
+	def initialize(options = {})
+		
+      # check for required arguments
+      [:project, :public_key, :private_key].each do | required_option |
+        raise MissingAttributeError, "#{required_option} is required." unless options[required_option]
+      end
+
+      options.each do |name, value|
       		send("#{name}=", value)
     	end
 
-    	#-----DEFAULTS------
+      # create defaults if the user didn't specify anything
+      @signatory = Stretchr::Signatory.new
+      @transporter = Stretchr::DefaultTransporter.new
+      @version ||= "v1"
+      @path ||= ""
+      @parameters = {}
 
-    	@version ||= "v1"
-    	@path = ""
-    	@query = ""
-    	@attributes = {}
   	end
 
-  	attr_accessor :project, :private_key, :public_key, :path, :version
+  	attr_accessor :project, :private_key, :public_key, :path, :version, :transporter, :signatory
 
   	#----------------Friendly Functions--------------
   	def url
@@ -26,32 +42,32 @@ class Stretchr
 
   	#---------------Parameter Building---------------
 
-  	def where(attributes)
+  	def where(parameters)
   		
   	end
 
-  	def order(attributes)
-  		@attributes[:order] = attributes.to_s
+  	def order(parameters)
+  		@parameters[:order] = parameters.to_s
   		self
   	end
 
-  	def skip(attributes)
-  		@attributes[:skip] = attributes.to_i
+  	def skip(parameters)
+  		@parameters[:skip] = parameters.to_i
   		self
   	end
 
-  	def limit(attributes)
-  		@attributes[:limit] = attributes.to_i
+  	def limit(parameters)
+  		@parameters[:limit] = parameters.to_i
   		self
   	end
 
-  	def page(attributes)
-  		skip((@attributes[:limit] * attributes.to_i) - @attributes[:limit])
+  	def page(parameters)
+  		skip((@parameters[:limit] * parameters.to_i) - @parameters[:limit])
   		self
   	end
 
-  	def attributes(attributes)
-  		@attributes.merge!(attributes)
+  	def parameters(parameters)
+  		@parameters.merge!(parameters)
   		self
   	end
 
@@ -64,10 +80,10 @@ class Stretchr
   	private
 
   	def merge_params
-  		unless @attributes.empty?
-	  		params = @attributes.collect { |k,v| "~#{k}=#{v}"}
+  		unless @parameters.empty?
+	  		params = @parameters.collect { |k,v| "~#{k}=#{v}"}
 	  		params = params.join("&")
-	  		params.insert(0, '?') unless @query.start_with?("?")
+	  	  params.insert(0, '?') unless @query.start_with?("?")
 	  	end
   		params
   	end

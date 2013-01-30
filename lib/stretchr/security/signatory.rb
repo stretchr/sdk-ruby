@@ -1,0 +1,3 @@
+class Stretchr::Signatory
+
+end
