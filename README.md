@@ -1,24 +1,25 @@
-== Stretchr gem for ruby
+# Stretchr gem for ruby
 
 Easily interact with the stretchr restful data store.
 
-== Usage
+## Usage
 
-stretchr = Stretchr.new(project: "company.project", private_key: "private_key", public_key: "public_key")
-stretchr.people(1).cars
-stretchr.people(1).cars.limit(10).page(2).order("-name")
+    stretchr = Stretchr.new(project: "company.project", private_key: "private_key", public_key: "public_key")
+    stretchr.people(1).cars
+    stretchr.people(1).cars.limit(10).page(2).order("-name")
 
-== Coming Soon
-#saving records
+# Coming Soon
 
-person = stretchr.people(1)
-person.name = "Ryan"
-person.save
+## Saving records
 
-#filters
+    person = stretchr.people(1)
+    person.name = "Ryan"
+    person.save
 
-stretchr.people.where(name: "Ryan", age: ">30")
+## Filters
 
-#creating new records
+    stretchr.people.where(name: "Ryan", age: ">30")
 
-stretchr.people << {name: "Ryan", age: "25"}
+## Creating new records
+
+    stretchr.people << {name: "Ryan", age: "25"}
