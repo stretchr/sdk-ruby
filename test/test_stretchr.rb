@@ -1,4 +1,5 @@
 require 'test/unit'
+require 'test_helper.rb'
 require 'stretchr'
 
 class StretchrTest < Test::Unit::TestCase
@@ -45,33 +46,54 @@ class StretchrTest < Test::Unit::TestCase
 
 	def test_basic_url_generation
 		stretchr = Stretchr.new({private_key: 'ABC123-private', public_key: "test", project: "project.company"})
-		assert_equal "http://project.company.stretchr.com/api/v1/people/1/cars", stretchr.people(1).cars.to_url
+		assert_equal URI.parse("http://project.company.stretchr.com/api/v1/people/1/cars").to_s, stretchr.people(1).cars.to_url
 	end
 
 	def test_filters
-		skip
+		skip "currently unsupported"
 	end
 
 	def test_paging
 		stretchr = Stretchr.new({private_key: 'ABC123-private', public_key: "test", project: "project.company"})
-		assert_equal stretchr.people.limit(10).skip(10).to_url, "http://project.company.stretchr.com/api/v1/people?~limit=10&~skip=10"
+		stretchr.people.limit(10).skip(10)
+		assert_equal true, stretchr.uri.validate_param_value("~limit", "10"), "limit not set"
+		assert_equal true, stretchr.uri.validate_param_value("~skip", "10"), "skip not set"
 
 		stretchr = Stretchr.new({private_key: 'ABC123-private', public_key: "test", project: "project.company"})
-		assert_equal stretchr.people.limit(10).page(2).to_url, "http://project.company.stretchr.com/api/v1/people?~limit=10&~skip=10"
+		stretchr.people.limit(10).page(2)
+		assert_equal true, stretchr.uri.validate_param_value("~limit", "10"), "limit not set"
+		assert_equal true, stretchr.uri.validate_param_value("~skip", "10"), "skip not set"
 	end
 
 	def test_orders
 		stretchr = Stretchr.new({private_key: 'ABC123-private', public_key: "test", project: "project.company"})
-		assert_equal stretchr.people.order("-age").to_url, "http://project.company.stretchr.com/api/v1/people?~order=-age"
+		stretchr.people.order("-age")
+		assert_equal true, stretchr.uri.validate_param_value("~order", "-age")
 
 		stretchr = Stretchr.new({private_key: 'ABC123-private', public_key: "test", project: "project.company"})
-		assert_equal stretchr.people.order("-age,name").to_url, "http://project.company.stretchr.com/api/v1/people?~order=-age,name"
+		stretchr.people.order("-age,name")
+		assert_equal true, stretchr.uri.validate_param_value("~order", "-age,name")
 	end
 
-	def test_signature_output
-		skip "TODO"
-		#assert_equal "df073ee4086eed5848d167871c7424937027728e", Stretchr::Security.signature({url: "http://test.stretchr.com/api/v1?~key=ABC123&:name=!Mat&:name=!Laurie&:age=>20", method: "GET", body: "body", privae_key: "ABC123-private"})
-	
+	def test_signing
+		public_key = "ABC123"
+		private_key = "ABC123-private"
+		body = "body"
+		url = "http://test.stretchr.com/api/v1?:name=!Mat&:name=!Laurie&:age=>20"
+
+		#as per documentation
+		assert_equal true, Stretchr::Signatory.generate_signed_url("get", url, public_key, private_key, body).validate_param_value("~sign", "df073ee4086eed5848d167871c7424937027728e"), "URL signature didn't match expected"
+	end
+
+	def test_private_key_and_body_hash_removal
+		#we shouldn't see the private key or body hash in the final url
+		public_key = "ABC123"
+		private_key = "ABC123-private"
+		body = "body"
+		url = "http://test.stretchr.com/api/v1?:name=!Mat&:name=!Laurie&:age=>20"
+
+		assert_equal false, Stretchr::Signatory.generate_signed_url("get", url, public_key, private_key, body).validate_param_presence("~private"), "private param included"
+		assert_equal false, Stretchr::Signatory.generate_signed_url("get", url, public_key, private_key, body).validate_param_presence("~bodyhash"), "private param included"
 	end
 
 end

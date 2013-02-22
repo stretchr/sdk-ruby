@@ -1,3 +1,6 @@
+require "uri"
+require "cgi"
+
 
 class Stretchr
 
@@ -21,11 +24,11 @@ class Stretchr
     	end
 
       # create defaults if the user didn't specify anything
-      @signatory = Stretchr::Signatory.new
-      @transporter = Stretchr::DefaultTransporter.new
+      @signatory ||= Stretchr::Signatory
+      @transporter ||= Stretchr::DefaultTransporter.new
       @version ||= "v1"
       @path ||= ""
-      @parameters = {}
+      @query = {}
 
   	end
 
@@ -33,12 +36,16 @@ class Stretchr
 
   	#----------------Friendly Functions--------------
   	def url
-  		url = "http://#{project}.stretchr.com/api/#{version}#{path}#{merge_params}"
+  		uri.to_s
   	end
 
   	def to_url
   		url
   	end
+
+    def uri
+      URI::HTTP.build(host: "#{project}.stretchr.com", query: merge_query, path: merge_path)
+    end
 
   	#---------------Parameter Building---------------
 
@@ -47,27 +54,27 @@ class Stretchr
   	end
 
   	def order(parameters)
-  		@parameters[:order] = parameters.to_s
+  		@query["~order"] = parameters.to_s
   		self
   	end
 
   	def skip(parameters)
-  		@parameters[:skip] = parameters.to_i
+  		@query["~skip"] = parameters.to_i
   		self
   	end
 
   	def limit(parameters)
-  		@parameters[:limit] = parameters.to_i
+  		@query["~limit"] = parameters.to_i
   		self
   	end
 
   	def page(parameters)
-  		skip((@parameters[:limit] * parameters.to_i) - @parameters[:limit])
+  		skip((@query["~limit"] * parameters.to_i) - @query["~limit"])
   		self
   	end
 
   	def parameters(parameters)
-  		@parameters.merge!(parameters)
+  		@query.merge!(parameters)
   		self
   	end
 
@@ -79,19 +86,29 @@ class Stretchr
 
   	private
 
-  	def merge_params
-  		unless @parameters.empty?
-	  		params = @parameters.collect { |k,v| "~#{k}=#{v}"}
-	  		params = params.join("&")
-	  	  params.insert(0, '?') unless @query.start_with?("?")
-	  	end
-  		params
+  	def merge_query
+
+      # 1.8.7 compatible, removed in favor of 1.9.  saved for reference
+      # unless @query == nil || @query == {}
+      #   @query.collect do |key, value|
+      #     #"#{CGI.escape(key.to_s)}=#{CGI.escape(value.to_s)}" do we want to CGI escape?
+      #     "#{key}=#{value}"
+      #   end.sort * "&"
+      # end
+
+      unless @query == nil || @query == {}
+        URI.encode_www_form(@query)
+      end
   	end
+
+    def merge_path
+      "/api/#{version}" + @path
+    end
 
   	def add_collection(collection, id = nil)
   		@path += "/#{collection}"
   		if id
-  			id.gsub!(/[^0-9A-Za-z.\-]/, '_') if id.is_a?(String)#remove non-ascii?  how do we feel about this?
+  			id.gsub!(/[^0-9A-Za-z.\-]/, '_') if id.is_a?(String) #remove non-ascii
   			@path += "/#{id}"
   		end
   		self
