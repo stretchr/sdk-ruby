@@ -82,7 +82,7 @@ class StretchrTest < Test::Unit::TestCase
 		url = "http://test.stretchr.com/api/v1?:name=!Mat&:name=!Laurie&:age=>20"
 
 		#as per documentation
-		assert_equal true, Stretchr::Signatory.generate_signed_url("get", url, public_key, private_key, body).validate_param_value("~sign", "df073ee4086eed5848d167871c7424937027728e"), "URL signature didn't match expected"
+		assert_equal true, Stretchr::Signatory.generate_signed_url("get", url, public_key, private_key, body).validate_param_value("~sign", "6c3dc03b3f85c9eb80ed9e4bd21e82f1bbda5b8d"), "URL signature didn't match expected"
 	end
 
 	def test_private_key_and_body_hash_removal

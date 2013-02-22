@@ -24,10 +24,13 @@ class Stretchr::Signatory
 			query = sort_query(query)
 			uri.query = URI.encode_www_form(query)
 
+
 			#append the method
 			signature = generate_signature(method, uri.to_s)
 
+
 			#now we prepare it for public use
+			public_query = public_query + "&" unless public_query == nil
 			uri.query = public_query + CGI.escape("~sign=#{signature}")
 
 			return uri
