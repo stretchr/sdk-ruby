@@ -10,7 +10,7 @@ class Stretchr::Signatory
 			uri = URI.parse(URI.escape(uri)) unless uri.is_a?(URI)
 
 			#preparation
-			query = CGI.parse(uri.query)
+			query = CGI.parse(uri.query || "")
 			query["~key"] = public_key
 
 			#store this for later, we'll need it
@@ -38,8 +38,8 @@ class Stretchr::Signatory
 
 		private
 
-		def generate_signature(method, private_url)
-			Digest::SHA1.hexdigest("#{method.upcase}&#{CGI.unescape(private_url.to_s)}")
+		def generate_signature(http_method, private_url)
+			Digest::SHA1.hexdigest("#{http_method.to_s.upcase}&#{CGI.unescape(private_url.to_s)}")
 		end
 
 		def sort_query(query)

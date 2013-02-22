@@ -6,6 +6,9 @@ class Stretchr
 
   require 'stretchr/security'
   require 'stretchr/transporters'
+  require 'stretchr/resources'
+  require 'stretchr/stretchr_request'
+  require 'stretchr/stretchr_response'
 
   # some errors
 
@@ -32,7 +35,32 @@ class Stretchr
 
   	end
 
-  	attr_accessor :project, :private_key, :public_key, :path, :version, :transporter, :signatory
+  	attr_accessor :project, :private_key, :public_key, :path, :http_method, :body, :version, :transporter, :signatory
+
+    #-------------------HTTP Actions-----------------
+
+    # generate_request makes a Stretchr::Request based on the current settings
+    # in this Stretchr object.
+    def generate_request
+      Stretchr::Request.new(
+        :http_method => http_method,
+        :signed_uri => signed_uri
+      )
+    end
+
+    def make_request!
+      # create and make the request
+      self.transporter.make_request(generate_request)
+    end
+
+    # get performs a GET request and returns the Stretchr::Response.
+    def get
+
+      self.http_method = :get
+
+      make_request!
+
+    end
 
   	#----------------Friendly Functions--------------
   	def url
@@ -47,11 +75,11 @@ class Stretchr
       URI::HTTP.build(host: "#{project}.stretchr.com", query: merge_query, path: merge_path)
     end
 
-  	#---------------Parameter Building---------------
+    def signed_uri
+      Stretchr::Signatory.generate_signed_url(http_method, uri, public_key, private_key, body)
+    end
 
-  	def where(parameters)
-  		
-  	end
+  	#---------------Parameter Building---------------
 
   	def order(parameters)
   		@query["~order"] = parameters.to_s

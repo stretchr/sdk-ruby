@@ -44,13 +44,25 @@ class StretchrTest < Test::Unit::TestCase
 
 	end
 
+	def test_make_request
+
+		stretchr = Stretchr.new({private_key: 'ABC123-private', public_key: "test", project: "project.company"})
+		stretchr.people(123).books
+		
+		stretchr.http_method = :get
+
+		request = stretchr.generate_request
+
+		assert_equal true, request.is_a?(Stretchr::Request)
+
+		assert_equal(stretchr.http_method, request.http_method)
+		assert_equal(stretchr.signed_uri, request.signed_uri)
+
+	end
+
 	def test_basic_url_generation
 		stretchr = Stretchr.new({private_key: 'ABC123-private', public_key: "test", project: "project.company"})
 		assert_equal URI.parse("http://project.company.stretchr.com/api/v1/people/1/cars").to_s, stretchr.people(1).cars.to_url
-	end
-
-	def test_filters
-		skip "currently unsupported"
 	end
 
 	def test_paging
@@ -75,6 +87,15 @@ class StretchrTest < Test::Unit::TestCase
 		assert_equal true, stretchr.uri.validate_param_value("~order", "-age,name")
 	end
 
+	def test_signed_uri
+
+		stretchr = Stretchr.new({private_key: 'ABC123-private', public_key: "test", project: "project.company"})
+		stretchr.people(123).books
+
+		assert_equal(true, stretchr.signed_uri.validate_param_presence("~sign"), "~sign param expected")
+
+	end
+
 	def test_signing
 		public_key = "ABC123"
 		private_key = "ABC123-private"
@@ -83,6 +104,16 @@ class StretchrTest < Test::Unit::TestCase
 
 		#as per documentation
 		assert_equal true, Stretchr::Signatory.generate_signed_url("get", url, public_key, private_key, body).validate_param_value("~sign", "6c3dc03b3f85c9eb80ed9e4bd21e82f1bbda5b8d"), "URL signature didn't match expected"
+	end
+
+	def test_signing_with_no_query
+		public_key = "ABC123"
+		private_key = "ABC123-private"
+		body = "body"
+		url = "http://test.stretchr.com/api/v1"
+
+		#as per documentation
+		assert_equal true, Stretchr::Signatory.generate_signed_url("get", url, public_key, private_key, body).validate_param_value("~sign", "d5e1dcbba794be7dc6767076bd4747b51837f21d"), "URL signature didn't match expected"
 	end
 
 	def test_private_key_and_body_hash_removal
