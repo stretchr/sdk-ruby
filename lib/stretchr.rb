@@ -35,7 +35,7 @@ class Stretchr
 
   	end
 
-  	attr_accessor :project, :private_key, :public_key, :path, :http_method, :body, :version, :transporter, :signatory
+  	attr_accessor :project, :private_key, :public_key, :path, :http_method, :http_body, :version, :transporter, :signatory
 
     #-------------------HTTP Actions-----------------
 
@@ -44,7 +44,8 @@ class Stretchr
     def generate_request
       Stretchr::Request.new(
         :http_method => http_method,
-        :signed_uri => signed_uri
+        :signed_uri => signed_uri,
+        :body => http_body
       )
     end
 
@@ -62,6 +63,25 @@ class Stretchr
 
     end
 
+    # post performs a POST and returns a Stretch::Response
+    def post
+      self.http_method = :post
+
+      make_request!
+    end
+
+    def put
+      self.http_method = :put
+
+      make_request!
+    end
+
+    def delete
+      self.http_method = :delete
+
+      make_request!
+    end
+
   	#----------------Friendly Functions--------------
   	def url
   		uri.to_s
@@ -76,7 +96,7 @@ class Stretchr
     end
 
     def signed_uri
-      Stretchr::Signatory.generate_signed_url(http_method, uri, public_key, private_key, body)
+      Stretchr::Signatory.generate_signed_url(http_method, uri, public_key, private_key, http_body)
     end
 
   	#---------------Parameter Building---------------
@@ -105,6 +125,12 @@ class Stretchr
   		@query.merge!(parameters)
   		self
   	end
+
+    def body(body_params)
+      self.http_body = body_params.to_json
+
+      self
+    end
 
   	#-----------------Basic Routing-----------------
 
