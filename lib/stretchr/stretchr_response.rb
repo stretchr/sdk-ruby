@@ -2,11 +2,13 @@ require 'json' unless defined? JSON
 
 class Stretchr::Response
 
-  attr_reader :json_string, :json_object, :status, :client_context, :data, :errors
+  attr_reader :json_string, :json_object, :status, :client_context, :data, :errors, :raw_response
 
   def initialize(options = nil)
 
     options ||= {}
+
+    @raw_response = options[:response]
 
     if options[:json]
       

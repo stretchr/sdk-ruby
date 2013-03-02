@@ -1,14 +1,15 @@
 require "uri"
 require "cgi"
+require "json"
 
 
 class Stretchr
 
-  require 'stretchr/security'
-  require 'stretchr/transporters'
-  require 'stretchr/resources'
-  require 'stretchr/stretchr_request'
-  require 'stretchr/stretchr_response'
+  require_relative 'stretchr/security'
+  require_relative 'stretchr/transporters'
+  require_relative 'stretchr/resources'
+  require_relative 'stretchr/stretchr_request'
+  require_relative 'stretchr/stretchr_response'
 
   # some errors
 

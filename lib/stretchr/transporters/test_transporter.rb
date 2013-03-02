@@ -17,4 +17,6 @@ class Stretchr::TestTransporter
     self.responses.shift
 
 	end
+
+  
 end
