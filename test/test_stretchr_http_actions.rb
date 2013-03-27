@@ -34,9 +34,9 @@ class StretchrHttpActionsTest < Test::Unit::TestCase
     test_response = Stretchr::Response.new(:json => '{"~s":200,"~d":{"name":"Ryan"}}')
     stretchr.transporter.responses << test_response
 
-    response_from_get = stretchr.people(123).body({:name=>"Ryan"}).post
+    response_from_post = stretchr.people(123).body({:name=>"Ryan"}).post
 
-    assert_equal(response_from_get, test_response, "response from get should be the response form the transporter")
+    assert_equal(response_from_post, test_response, "response from get should be the response form the transporter")
     
     if assert_equal(1, stretchr.transporter.requests.length)
       
@@ -57,9 +57,9 @@ class StretchrHttpActionsTest < Test::Unit::TestCase
     test_response = Stretchr::Response.new(:json => '{"~s":200,"~d":{"name":"Ryan"}}')
     stretchr.transporter.responses << test_response
 
-    response_from_get = stretchr.people(123).body({:name=>"Mat"}).put
+    response_from_put = stretchr.people(123).body({:name=>"Mat"}).put
 
-    assert_equal(response_from_get, test_response, "response from get should be the response form the transporter")
+    assert_equal(response_from_put, test_response, "response from get should be the response form the transporter")
     
     if assert_equal(1, stretchr.transporter.requests.length)
       
@@ -80,9 +80,9 @@ class StretchrHttpActionsTest < Test::Unit::TestCase
     test_response = Stretchr::Response.new(:json => '{"~s":200,"~d":{"name":"Ryan"}}')
     stretchr.transporter.responses << test_response
 
-    response_from_get = stretchr.people(123).delete
+    response_from_delete = stretchr.people(123).delete
 
-    assert_equal(response_from_get, test_response, "response from get should be the response form the transporter")
+    assert_equal(response_from_delete, test_response, "response from get should be the response form the transporter")
     
     if assert_equal(1, stretchr.transporter.requests.length)
       
