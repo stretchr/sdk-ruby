@@ -14,7 +14,7 @@ class Stretchr::Signatory
 			query["~key"] = public_key
 
 			#store this for later, we'll need it
-			public_query = URI.encode_www_form(query) 
+			public_query = URI.encode_www_form(query)
 
 			#now add the private stuff
 			query["~private"] = private_key
@@ -24,10 +24,8 @@ class Stretchr::Signatory
 			query = sort_query(query)
 			uri.query = URI.encode_www_form(query)
 
-
 			#append the method
 			signature = generate_signature(method, uri.to_s)
-
 
 			#now we prepare it for public use
 			public_query = public_query + "&" unless public_query == nil
@@ -39,7 +37,9 @@ class Stretchr::Signatory
 		private
 
 		def generate_signature(http_method, private_url)
-			Digest::SHA1.hexdigest("#{http_method.to_s.upcase}&#{CGI.unescape(private_url.to_s)}")
+			combined = "#{http_method.to_s.upcase}&#{CGI.unescape(private_url.to_s)}"
+			puts "Combined: #{combined}"
+			Digest::SHA1.hexdigest(combined)
 		end
 
 		def sort_query(query)

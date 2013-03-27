@@ -6,6 +6,10 @@ end
 
 module URI
 
+	def get_param(param)
+		CGI.parse(CGI.unescape(self.query))[param]
+	end
+
 	def validate_param_value(param, value)
 		CGI.parse(CGI.unescape(self.query))[param].include?(value)
 	end
