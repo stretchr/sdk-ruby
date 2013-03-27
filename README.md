@@ -1,25 +1,66 @@
-# Stretchr gem for ruby
+# Stretchr gem for Ruby
 
 Easily interact with the stretchr restful data store.
 
 ## Usage
 
-    stretchr = Stretchr.new(project: "company.project", private_key: "private_key", public_key: "public_key")
-    stretchr.people(1).cars
-    stretchr.people(1).cars.limit(10).page(2).order("-name")
+### Create a global session object
 
-# Coming Soon
+    stretchr = Stretchr.new(project: "project.company", private_key: "private_key", public_key: "public_key")
 
-## Saving records
+### Reading resources
 
-    person = stretchr.people(1)
-    person.name = "Ryan"
-    person.save
+    # get all cars
+    cars = stretchr.cars.read
 
-## Filters
+    if cars.success?
+      cars.data.each do | car |
+        # process each car
+      end
+    end
 
-    stretchr.people.where(name: "Ryan", age: ">30")
+    # get 2nd page of cars ordered by name belonging to person 1
+    ordered_cars = stretchr.people(1).cars.limit(10).page(2).order("-name")
 
-## Creating new records
+    # get all books belonging to person 1
+    books = stretchr.people(1).books.read
 
-    stretchr.people << {name: "Ryan", age: "25"}
+### Creating a resource
+
+    if stretchr.people.create({ :name => "Ryan", :language => "Ruby" }).success?
+      # success
+    else
+      # handle errors
+    end
+
+### Updating a resource
+
+    if stretchr.people(123).update({:name => "Ryan Quinn"}).success?
+      # success
+    else
+      # handle errors
+    end
+
+### Replacing a resource
+
+    if stretchr.people(123).replace({:name => "Ryan Quinn"}).success?
+      # success
+    else
+      # handle errors
+    end
+
+### Deleting a resource
+
+    if stretchr.people(123).delete.success?
+      # success
+    else
+      # handle errors
+    end
+
+### Delete many resources
+
+    if stretchr.people.delete.success?
+      # success
+    else
+      # handle errors
+    end
