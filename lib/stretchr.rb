@@ -83,7 +83,26 @@ class Stretchr
       make_request!
     end
 
-  	#----------------Friendly Functions--------------
+    #---------------- Friendly Actions --------------
+
+    def create(object)
+      self.body(object).post
+    end
+
+    def replace(object)
+      self.body(object).post
+    end
+
+    def update(object)
+      self.body(object).put
+    end
+
+    def read
+      self.get
+    end
+
+    #----------------Friendly Functions--------------
+    
   	def url
   		uri.to_s
   	end
