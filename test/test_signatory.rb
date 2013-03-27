@@ -29,7 +29,7 @@ class ResourcesTest < Test::Unit::TestCase
 		url = "http://localhost:8080/api/v1?:name=!Mat&:name=!Laurie&:age=>20"
 
 		#as per documentation
-		assert_equal "c544d7d9d76d19950bdd7c7e9c93778f52ce7f5e", Stretchr::Signatory.generate_signed_url("get", url, public_key, private_key).get_param("~sign").first, "URL signature didn't match expected"
+		assert_equal "6841830bf612b03864edeebf9b99b7f48a8edf2d", Stretchr::Signatory.generate_signed_url("get", url, public_key, private_key).get_param("~sign").first, "URL signature didn't match expected"
 
 	end
 
@@ -50,7 +50,7 @@ class ResourcesTest < Test::Unit::TestCase
 		url = "http://localhost:8080/api/v1/people?:~created=>10000000"
 
 		#as per documentation
-		assert_equal "0ca22ff6daab6ac85978e52ddd8dcac51078b0d4", Stretchr::Signatory.generate_signed_url("get", url, public_key, private_key).get_param("~sign").first, "URL signature didn't match expected"
+		assert_equal "b54b16d3542a1497bf22c4f61aa935e81032e7b5", Stretchr::Signatory.generate_signed_url("get", url, public_key, private_key).get_param("~sign").first, "URL signature didn't match expected"
 
 	end
 

@@ -38,7 +38,6 @@ class Stretchr::Signatory
 
 		def generate_signature(http_method, private_url)
 			combined = "#{http_method.to_s.upcase}&#{CGI.unescape(private_url.to_s)}"
-			puts "Combined: #{combined}"
 			Digest::SHA1.hexdigest(combined)
 		end
 
