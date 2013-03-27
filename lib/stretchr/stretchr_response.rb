@@ -28,4 +28,9 @@ class Stretchr::Response
 
   end
 
+  # Gets whether this is a successful response.
+  def success?
+    @status >= 200 && @status <= 299
+  end
+
 end

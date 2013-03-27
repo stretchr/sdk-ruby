@@ -20,4 +20,24 @@ class StretchrResponseTest < Test::Unit::TestCase
 
   end
 
+  def test_was_successful
+
+    json_string = '{"~s":200,"~d":{"name":"Ryan"},"~x":"123","~e":[{"~m":"Something went wrong"}]}'
+    r = Stretchr::Response.new(:json => json_string)
+    assert_equal true, r.success?, "200 success"
+
+    json_string = '{"~s":201,"~d":{"name":"Ryan"},"~x":"123","~e":[{"~m":"Something went wrong"}]}'
+    r = Stretchr::Response.new(:json => json_string)
+    assert_equal true, r.success?, "201 success"
+
+    json_string = '{"~s":404,"~d":{"name":"Ryan"},"~x":"123","~e":[{"~m":"Something went wrong"}]}'
+    r = Stretchr::Response.new(:json => json_string)
+    assert_equal false, r.success?, "404 success"
+
+    json_string = '{"~s":500,"~d":{"name":"Ryan"},"~x":"123","~e":[{"~m":"Something went wrong"}]}'
+    r = Stretchr::Response.new(:json => json_string)
+    assert_equal false, r.success?, "500 success"
+
+  end
+
 end
