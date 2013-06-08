@@ -1,7 +1,8 @@
 require "cgi" unless defined? CGI
+require_relative "../lib/stretchr"
 
 def test_stretchr_object
-  Stretchr.new({transporter: Stretchr::TestTransporter.new, private_key: 'ABC123-private', public_key: "test", project: "project.company"})
+  Stretchr::Client.new({transporter: Stretchr::TestTransporter.new, private_key: 'ABC123-private', public_key: "test", project: "project.company"})
 end
 
 module URI

@@ -1,5 +1,7 @@
-class Stretchr::Resource
+module Stretchr
+	class Resource
 
-  
+	  
 
+	end
 end
