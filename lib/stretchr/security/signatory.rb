@@ -31,7 +31,7 @@ class Stretchr::Signatory
 
 			#now we prepare it for public use
 			public_query = public_query + "&" unless public_query == nil
-			uri.query = public_query + CGI.escape("~sign=#{signature}")
+			uri.query = public_query + URI.encode_www_form("~sign" => signature)
 
 			return uri
 		end

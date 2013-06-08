@@ -16,19 +16,22 @@ class Stretchr::DefaultTransporter
 	end
 
 	def generate_request(request)
+		
+		request_uri = request.signed_uri.request_uri
+
 		case request.http_method
 		when :get
-			req = Net::HTTP::Get.new request.signed_uri.request_uri
+			req = Net::HTTP::Get.new request_uri
 		when :post
-			req = Net::HTTP::Post.new request.signed_uri.request_uri
+			req = Net::HTTP::Post.new request_uri, {'Content-Type' => "application/json"}
 			req.body = request.body
 			req
 		when :put
-			req = Net::HTTP::Put.new request.signed_uri.request_uri
+			req = Net::HTTP::Put.new request_uri, {'Content-Type' => "application/json"}
 			req.body = request.body
 			req
 		when :delete
-			req = Net::HTTP::Delete.new request.signed_uri.request_uri
+			req = Net::HTTP::Delete.new request_uri
 		end
 	end
 
