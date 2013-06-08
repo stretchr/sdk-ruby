@@ -2,8 +2,11 @@
 module Stretchr
 	#basic stretchr error namespace
 	class StretchrError < StandardError; end
-	#missing a required attribute for the client
-	class MissingAttributeError < StretchrError; end
+
+	#Configuration
+	class MissingAttributeError < StretchrError; end #thrown when initializing client without params
+	class UnknownConfiguration < StretchrError; end #thrown when we try to set an unknown configuration option
+
 	#stretchr object not found
 	class Notfound < StretchrError; end
 	#don't know what happened here!

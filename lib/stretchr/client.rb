@@ -3,6 +3,9 @@ module Stretchr
 	class Client
 		def initialize(options = {})
 		
+			options[:project] ||= Stretchr.configuration.project
+			options[:private_key] ||= Stretchr.configuration.private_key
+			options[:public_key] ||= Stretchr.configuration.public_key
 			# check for required arguments
 			[:project, :public_key, :private_key].each do | required_option |
 				raise MissingAttributeError, "#{required_option} is required." unless options[required_option]

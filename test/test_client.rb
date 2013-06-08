@@ -86,4 +86,25 @@ class StretchrTest < Test::Unit::TestCase
 		assert_equal true, stretchr.uri.validate_param_value("~order", "-age,name")
 	end
 
+	def test_configuration_setup
+		Stretchr.config do |s|
+			s.private_key = "test_private"
+			s.public_key = "test_public"
+			s.project = "test"
+		end
+
+		assert_equal Stretchr.instance_eval {@configuration.private_key}, "test_private", "Should have setup configuration for the module"
+		assert_nothing_raised do
+			client = Stretchr::Client.new
+		end
+
+		assert_raise Stretchr::UnknownConfiguration, "Should raise an error when we pass an unknown configuration in" do
+			Stretchr.config do |s|
+				s.fake_param = "what"
+			end
+		end
+		#FIXME : this is a hack to reset the client!
+		Stretchr.instance_eval {@configuration = Stretchr::Configuration.new}
+	end
+
 end
