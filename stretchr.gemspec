@@ -5,6 +5,6 @@ Gem::Specification.new do |s|
   s.description = "A gem for interacting with your stretchr data"
   s.authors     = ["Ryan Quinn"]
   s.email       = 'ryan@mazondo.com'
-  s.files       = ["lib/stretchr.rb"]
+  s.files       = Dir.glob("{bin,lib,test}/**/*")
   s.homepage    = 'http://www.stretchr.com'
 end

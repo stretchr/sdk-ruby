@@ -21,7 +21,7 @@ class StretchrHttpActionsTest < Test::Unit::TestCase
       
       assert_equal(:post, request.http_method, "http_method")
       assert_equal(request.body, {:name=>"Ryan"}.to_json)
-      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign%3Da2c48a40179fdd9db12f157d289e9ec79b00fe04", request.signed_uri.to_s)
+      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign=a2c48a40179fdd9db12f157d289e9ec79b00fe04", request.signed_uri.to_s)
 
     end
 
@@ -44,7 +44,7 @@ class StretchrHttpActionsTest < Test::Unit::TestCase
       
       assert_equal(:put, request.http_method, "http_method")
       assert_equal(request.body, {:name=>"Mat"}.to_json)
-      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign%3D837147f09451a998c041c328821c6b72f88f3336", request.signed_uri.to_s)
+      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign=837147f09451a998c041c328821c6b72f88f3336", request.signed_uri.to_s)
 
     end
 
@@ -67,7 +67,7 @@ class StretchrHttpActionsTest < Test::Unit::TestCase
       
       assert_equal(:post, request.http_method, "http_method")
       assert_equal(request.body, {:name=>"Ryan"}.to_json)
-      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign%3Da2c48a40179fdd9db12f157d289e9ec79b00fe04", request.signed_uri.to_s)
+      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign=a2c48a40179fdd9db12f157d289e9ec79b00fe04", request.signed_uri.to_s)
 
     end
 
@@ -90,7 +90,7 @@ class StretchrHttpActionsTest < Test::Unit::TestCase
       
       assert_equal(:get, request.http_method, "http_method")
       assert_nil(request.body, "body")
-      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign%3Da6bfa773f9169dbeae077ba6a8ac3da07fc19db3", request.signed_uri.to_s)
+      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign=a6bfa773f9169dbeae077ba6a8ac3da07fc19db3", request.signed_uri.to_s)
 
     end
 
@@ -113,7 +113,7 @@ class StretchrHttpActionsTest < Test::Unit::TestCase
       
       assert_equal(:get, request.http_method, "http_method")
       assert_nil(request.body, "body")
-      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign%3Da6bfa773f9169dbeae077ba6a8ac3da07fc19db3", request.signed_uri.to_s)
+      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign=a6bfa773f9169dbeae077ba6a8ac3da07fc19db3", request.signed_uri.to_s)
 
     end
 
@@ -136,7 +136,7 @@ class StretchrHttpActionsTest < Test::Unit::TestCase
       
       assert_equal(:post, request.http_method, "http_method")
       assert_equal(request.body, {:name=>"Ryan"}.to_json)
-      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign%3Da2c48a40179fdd9db12f157d289e9ec79b00fe04", request.signed_uri.to_s)
+      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign=a2c48a40179fdd9db12f157d289e9ec79b00fe04", request.signed_uri.to_s)
 
     end
 
@@ -159,7 +159,7 @@ class StretchrHttpActionsTest < Test::Unit::TestCase
       
       assert_equal(:put, request.http_method, "http_method")
       assert_equal(request.body, {:name=>"Mat"}.to_json)
-      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign%3D837147f09451a998c041c328821c6b72f88f3336", request.signed_uri.to_s)
+      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign=837147f09451a998c041c328821c6b72f88f3336", request.signed_uri.to_s)
 
     end
 
@@ -182,7 +182,7 @@ class StretchrHttpActionsTest < Test::Unit::TestCase
       
       assert_equal(:delete, request.http_method, "http_method")
       assert_nil(request.body, "body")
-      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign%3D7becba6ba04d40b7dd19408776f7f028c0d8f864", request.signed_uri.to_s)
+      assert_equal("http://project.company.stretchr.com/api/v1/people/123?%7Ekey=test&%7Esign=7becba6ba04d40b7dd19408776f7f028c0d8f864", request.signed_uri.to_s)
 
     end
 
