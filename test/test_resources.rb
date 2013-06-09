@@ -25,7 +25,7 @@ class ResourcesTest < Test::Unit::TestCase
 
 	def test_resources_set_paths
 		account = Account.new
-		assert_equal account.stretchr_client.path, "/books"
+		assert_equal Account.stretchr_client.path, "/books"
 	end
 
 end

@@ -5,7 +5,7 @@ module Stretchr
 			@attributes = {}
 		end
 
-		def stretchr_client
+		def self.stretchr_client
 			@client ||= Stretchr::Client.new({path: @config ? @config[:path] : nil})
 		end
 
@@ -13,7 +13,6 @@ module Stretchr
 			@config ||= {}
 			@config.merge(params)
 		end
-
 	  
 		def method_missing(method, *args)
 			attribute = method.to_s
