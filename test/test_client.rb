@@ -114,8 +114,12 @@ class StretchrTest < Test::Unit::TestCase
 	end
 
 	def test_client_should_raise_errors
-		#FIXME : should generate NotFound, Unauthorized, etc... errors for requests
-		flunk "not implemented"
+		stretchr = test_stretchr_object
+		stretchr.noisy_errors = true
+		assert_raises Stretchr::NotFound, "Should have returned not found!" do
+			stretchr.transporter.responses << Stretchr::Response.new({json: ({"~s" => 404}).to_json})
+			stretchr.get
+		end
 	end
 
 end

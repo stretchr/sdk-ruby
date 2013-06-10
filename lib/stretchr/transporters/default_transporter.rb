@@ -6,6 +6,7 @@ module Stretchr
 
 		def make_request(request)
 			response = nil
+			
 			Net::HTTP.start(request.signed_uri.host, request.signed_uri.port) do |http|
 
 			  http_request = generate_request(request)

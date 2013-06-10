@@ -7,6 +7,7 @@ module Stretchr
 			options[:project] ||= Stretchr.configuration.project
 			options[:private_key] ||= Stretchr.configuration.private_key
 			options[:public_key] ||= Stretchr.configuration.public_key
+			options[:noisy_errors] ||= (Stretchr.configuration.noisy_errors || false)
 			# check for required arguments
 			[:project, :public_key, :private_key].each do | required_option |
 				raise MissingAttributeError, "#{required_option} is required." unless options[required_option]
@@ -25,7 +26,7 @@ module Stretchr
 
 		end
 
-		attr_accessor :project, :private_key, :public_key, :path, :http_method, :http_body, :version, :transporter, :signatory
+		attr_accessor :project, :private_key, :public_key, :path, :http_method, :http_body, :version, :transporter, :signatory, :noisy_errors
 
 		#-------------------HTTP Actions-----------------
 
@@ -41,14 +42,38 @@ module Stretchr
 
 		def make_request!
 			# create and make the request
-			self.transporter.make_request(generate_request)
+			response = self.transporter.make_request(generate_request)
+			raise_errors_in_response(response) if noisy_errors
+			response
 		end
+
+	    def raise_errors_in_response(response)
+	        if [404, 500, 401, 403, 406, 400].include?(response.status)
+	          raise_error(response.status)
+	        end 
+	    end
+
+	    def raise_error(status)
+	      case status
+	      when 404 
+	        raise NotFound
+	      when 500 
+	        raise InternalServerError
+	      when 401 
+	        raise Unauthorized
+	      when 403 
+	        raise Forbidden
+	      when 400 
+	        raise BadRequest
+	      else
+	        raise Unknown
+	      end    
+	    end
 
 		# get performs a GET request and returns the Stretchr::Response.
 		def get
 
 			self.http_method = :get
-
 			make_request!
 
 		end
@@ -56,19 +81,16 @@ module Stretchr
 		# post performs a POST and returns a Stretch::Response
 		def post
 			self.http_method = :post
-
 			make_request!
 		end
 
 		def put
 			self.http_method = :put
-
 			make_request!
 		end
 
 		def delete
 			self.http_method = :delete
-
 			make_request!
 		end
 

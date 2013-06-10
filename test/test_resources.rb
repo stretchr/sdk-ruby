@@ -71,16 +71,47 @@ class ResourcesTest < Test::Unit::TestCase
 		Account.load_response(response)
 
 		account.save
-
+		assert_equal ({name: "Ryan"}).to_json, Account.stretchr_client.transporter.requests.last.body, "Should have set the correct body"
 		assert account.stretchr_id != nil, "Should have returned and set a stretchr id"
 	end
 
 	def test_save_new_object_with_id
-		flunk "not implemented"
+		account = Account.new
+		account.name = "Ryan"
+		account.stretchr_id = "ryan"
+
+		response = Stretchr::GenerateResponse.post_response
+		Account.load_response(response)
+
+		account.save
+		assert JSON.parse(Account.stretchr_client.transporter.requests.last.body).has_key?("~id"), "Should have set the stretchr id for me!"
 	end
 
 	def test_save_old_project
 		flunk "not implemented"
+	end
+
+	def test_create_method
+		response = Stretchr::GenerateResponse.post_response({deltas: [{"~id" => "asdf"}]})
+		Account.load_response(response)
+
+		account = Account.create({name: "Ryan"})
+		assert_equal "Ryan", account.name, "Should have created the object with the attributes"
+		assert_equal "asdf", account.stretchr_id, "Should have given it a stretchr ID from the response"
+
+		response = Stretchr::GenerateResponse.post_response({deltas: [{"~id" => "ryan"}, {"~id" => "tim"}]})
+		Account.load_response(response)
+
+		accounts = Account.create([{name: "Ryan"}, {name: "Tim"}])
+		assert_equal "ryan", accounts.first.stretchr_id, "Should have returned an array of objects"
+		assert_equal "tim", accounts[1].stretchr_id, "Second object should work!"
+	end
+
+	def test_not_found
+		response = Stretchr::GenerateResponse.get_single_response({status: 404})
+		Account.load_response(response)
+		account = Account.find({id: "ryan"})
+		assert_equal false, account, "Should have returned false if object not found"
 	end
 
 	#FIXME : It needs to know when an item already exists and when it's being created for the first time and handle them appropriately

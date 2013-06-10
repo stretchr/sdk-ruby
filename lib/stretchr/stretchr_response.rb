@@ -17,6 +17,7 @@ module Stretchr
         @json_object = JSON.parse(@json_string)
 
         @status = @json_object["~s"]
+
         @client_context = @json_object["~x"]
         @data = @json_object["~d"]
         @changed = @json_object["~ch"]["~deltas"] if @json_object["~ch"]

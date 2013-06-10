@@ -10,6 +10,7 @@ module Stretchr
 		add_option :private_key
 		add_option :public_key
 		add_option :project
+		add_option :noisy_errors
 
 		def method_missing(name, *params)
 			raise Stretchr::UnknownConfiguration

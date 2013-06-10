@@ -7,8 +7,12 @@ module Stretchr
 	class MissingAttributeError < StretchrError; end #thrown when initializing client without params
 	class UnknownConfiguration < StretchrError; end #thrown when we try to set an unknown configuration option
 
-	#stretchr object not found
-	class Notfound < StretchrError; end
-	#don't know what happened here!
+	#stretchr status errors
+	class NotFound < StretchrError; end
+	class InternalServerError < StretchrError; end
+	class BadRequest < StretchrError; end
+	class Unathorized < StretchrError; end
+	class Forbidden < StretchrError; end
 	class Unknown < StretchrError; end
+
 end
