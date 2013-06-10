@@ -107,4 +107,15 @@ class StretchrTest < Test::Unit::TestCase
 		Stretchr.instance_eval {@configuration = Stretchr::Configuration.new}
 	end
 
+	def test_client_shouldnt_expect_options
+		assert_nothing_raised do
+			client = Stretchr::Client.new(nil)
+		end
+	end
+
+	def test_client_should_raise_errors
+		#FIXME : should generate NotFound, Unauthorized, etc... errors for requests
+		flunk "not implemented"
+	end
+
 end

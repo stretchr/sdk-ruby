@@ -2,6 +2,7 @@ module Stretchr
 
 	class Client
 		def initialize(options = {})
+			options ||= {}
 		
 			options[:project] ||= Stretchr.configuration.project
 			options[:private_key] ||= Stretchr.configuration.private_key

@@ -2,7 +2,7 @@ require 'json' unless defined? JSON
 module Stretchr
   class Response
 
-    attr_reader :json_string, :json_object, :status, :client_context, :data, :errors, :raw_response
+    attr_reader :json_string, :json_object, :status, :client_context, :data, :changed, :errors, :raw_response
 
     def initialize(options = nil)
 
@@ -19,6 +19,7 @@ module Stretchr
         @status = @json_object["~s"]
         @client_context = @json_object["~x"]
         @data = @json_object["~d"]
+        @changed = @json_object["~ch"]["~deltas"] if @json_object["~ch"]
 
         unless @json_object["~e"].nil?
           @errors = @json_object["~e"].collect {| error_obj | error_obj["~m"] }

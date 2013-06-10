@@ -22,4 +22,5 @@ class StretchrRequestTest < Test::Unit::TestCase
 
   end
 
+  
 end

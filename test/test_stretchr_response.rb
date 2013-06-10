@@ -19,6 +19,13 @@ class StretchrResponseTest < Test::Unit::TestCase
 
   end
 
+  def test_change_info
+    json_string = '{"~s":200, "~ch" : {"~deltas" : "test"}}'
+    r = Stretchr::Response.new(:json => json_string)
+    assert_equal r.changed, "test", "Should have grabbed the change info"
+      
+  end
+
   def test_was_successful
 
     json_string = '{"~s":200,"~d":{"name":"Ryan"},"~x":"123","~e":[{"~m":"Something went wrong"}]}'
