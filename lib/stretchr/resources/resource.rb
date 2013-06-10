@@ -19,7 +19,7 @@ module Stretchr
 		end
 
 		def self.stretchr_client
-			@client ||= Stretchr::Client.new(@config)
+			Stretchr::Client.new(@config)
 		end
 
 		def self.stretchr_config(params = {})
