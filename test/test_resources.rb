@@ -57,7 +57,7 @@ class ResourcesTest < Test::Unit::TestCase
 	end
 
 	def test_none_from_all
-		response = Stretchr::GenerateResponse.get_collection_response({objects: []})
+		response = Stretchr::GenerateResponse.get_collection_response
 		Account.load_response(response)
 		accounts = Account.all
 		assert accounts.is_a?(Array), "Should return an array even for zero objects"
@@ -114,8 +114,45 @@ class ResourcesTest < Test::Unit::TestCase
 		assert_equal false, account, "Should have returned false if object not found"
 	end
 
+	def test_find_resources
+		response = Stretchr::GenerateResponse.get_collection_response({objects: [{name: "Ryan", "~id" => "ryan"}, {name: "Ryan", "~id" => "tim"}]})
+		Account.load_response(response)
+		accounts = Account.where("name" => "Ryan")
+		assert accounts.length == 2, "should have returned two objects"
+		assert accounts.first.is_a?(Account), "should have returned an array of account objects"
+		assert accounts.first.name == "Ryan", "should have returned editable objects"
+	end
+
+	def test_find_no_resources
+		response = Stretchr::GenerateResponse.get_collection_response
+		Account.load_response(response)
+		accounts = Account.where("name" => "Ryan")
+		assert_equal false, accounts, "Should have returned false for no objects!"
+	end
+
+	def test_remove_params_from_path
+		response = Stretchr::GenerateResponse.get_collection_response({objects: [], in_response: 0})
+		Account.load_response(response)
+		accounts = Account.where({id: "test"})
+		last_uri = Account.stretchr_client.transporter.requests.last.signed_uri
+		assert last_uri.path.include?("/books/test"), "Should have set the path"
+		assert !URI.decode(last_uri.query).include?(":id"), "Should not have included id search in query"
+	end
+
+	def test_nil_path_param
+		assert_nothing_raised "Nil attributes shouldn't raise error" do
+			Stretchr::Resource.instance_eval { prep_path("/accounts/:account_id", {account_id: nil}) }
+		end
+	end
+
+	def test_number_for_param
+		assert_nothing_raised "Nil attributes shouldn't raise error" do
+			Stretchr::Resource.instance_eval { prep_path("/accounts/:account_id", {account_id: 123}) }
+		end
+	end
+
 	#FIXME : It needs to know when an item already exists and when it's being created for the first time and handle them appropriately
 	#FIXME : It needs to be able to throw errors for 404, etc...
-	
+	#FIXME : Should test "where" with params in the path as well.  It should add them to the path but remove them from the query
 
 end

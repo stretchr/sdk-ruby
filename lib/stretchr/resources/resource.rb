@@ -16,7 +16,23 @@ module Stretchr
 			stretchr = stretchr_client
 			stretchr.path = prep_path(stretchr.path.dup, params)
 			response = stretchr.get
-			response.data["~i"].map {|r| self.new(r)}
+			return [] if response.data["~c"] == 0 || !response.data["~i"]
+			response.data["~i"].map {|r| self.new(r) }
+		end
+
+		def self.where(params = {})
+			stretchr = stretchr_client
+			#snag the vars that are needed for the path
+			path_vars = stretchr.path.scan(/:([a-zA-Z0-9_-]*)/i).flatten
+			#now convert the path as best we can
+			stretchr.path = prep_path(stretchr.path.dup, params)
+			#now remove the path params from the request
+			params.delete_if {|key, value| path_vars.include?(key.to_s)}
+
+			response = stretchr.where(params).get
+			#return false if nothing returned or search wasn't successful
+			return false if !response.success? || response.data["~c"] == 0 || !response.data["~i"]
+			response.data["~i"].map {|i| self.new(i) }
 		end
 
 		def self.stretchr_client
@@ -80,7 +96,7 @@ module Stretchr
 		private
 
 		def self.prep_path(path, params = {})
-			params.each {|key, value| path.gsub!(":#{key.to_s}", value) }
+			params.each {|key, value| path.gsub!(":#{key.to_s}", value.to_s) unless value == nil}
 			#remove any unchanged params from the path
 			path.gsub!(/(:[a-zA-Z0-9_-]*)/, "")
 			path

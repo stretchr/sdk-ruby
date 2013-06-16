@@ -24,10 +24,13 @@ module Stretchr
 					"~s" => params[:status] || 200,
 					"~d" => {
 							"~t" => params[:total] || 10,
-							"~c" => params[:in_response] || 10,
-							"~i" => params[:objects] || [{"name" => "Ryan"}, {"name" => "Tim"}]
+							"~c" => params[:in_response] || 0
 						},
 				}
+				if params[:objects]
+					response["~d"]["~i"] = params[:objects]
+					response["~d"]["~c"] = params[:objects].length
+				end
 				response["~e"] = params[:errors] if params[:errors]
 				response["~x"] = params[:context] if params[:context]
 				response["~ch"] = params[:change_info] if params[:change_info]

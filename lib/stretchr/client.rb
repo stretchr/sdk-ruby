@@ -94,23 +94,23 @@ module Stretchr
 			make_request!
 		end
 
-    #---------------- Friendly Actions --------------
+	    #---------------- Friendly Actions --------------
 
-    def create(object)
-      self.body(object).post
-    end
+	    def create(object)
+	      self.body(object).post
+	    end
 
-    def replace(object)
-      self.body(object).post
-    end
+	    def replace(object)
+	      self.body(object).post
+	    end
 
-    def update(object)
-      self.body(object).put
-    end
+	    def update(object)
+	      self.body(object).put
+	    end
 
-    def read
-      self.get
-    end
+	    def read
+	      self.get
+	    end
 
 		#----------------Friendly Functions--------------
 		def url
@@ -162,6 +162,13 @@ module Stretchr
 			self
 		end
 
+		def where(params)
+			params.each do |key, value|
+				@query["\:#{key.to_s}"] = value
+			end
+			self
+		end
+
 		#-----------------Basic Routing-----------------
 
 		def method_missing(method, *args)
@@ -188,8 +195,6 @@ module Stretchr
 		def merge_path
 			"/api/#{version}" + @path
 		end
-
-
 
 	end
 

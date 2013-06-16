@@ -122,4 +122,11 @@ class StretchrTest < Test::Unit::TestCase
 		end
 	end
 
+	def test_query
+		stretchr = test_stretchr_object
+		stretchr.where("name" => "ryan", "age" => ">21")
+		assert stretchr.uri.validate_param_value(":name", "ryan"), "Should have searched for a name"
+		assert stretchr.uri.validate_param_value(":age", ">21"), "Should search for an age"
+	end
+
 end
