@@ -151,6 +151,15 @@ class ResourcesTest < Test::Unit::TestCase
 		end
 	end
 
+	def test_to_json
+		account = Account.new
+		account.name = "Ryan"
+		account.stretchr_id = "asdf"
+		hash = {"name" => "Ryan", "stretchr_id" => "asdf"}
+		assert_equal hash, account.to_hash, "Should have returned a hash"
+		assert_equal hash.to_json, account.to_json, "Should have returned json"
+	end
+
 	#FIXME : It needs to know when an item already exists and when it's being created for the first time and handle them appropriately
 	#FIXME : It needs to be able to throw errors for 404, etc...
 	#FIXME : Should test "where" with params in the path as well.  It should add them to the path but remove them from the query

@@ -83,6 +83,14 @@ module Stretchr
 			response.each {|key, value| self.send("#{key}=", value)}
 			self
 		end
+
+		def to_hash
+			@attributes
+		end
+
+		def to_json
+			to_hash.to_json
+		end
 	  
 		def method_missing(method, *args)
 			attribute = method.to_s
