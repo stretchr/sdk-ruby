@@ -1,12 +1,11 @@
 require 'test/unit'
 require 'test_helper.rb'
-require 'stretchr'
 
 class ResourcesTest < Test::Unit::TestCase
 
 	def test_signed_uri
 
-		stretchr = Stretchr.new({private_key: 'ABC123-private', public_key: "test", project: "project.company"})
+		stretchr = test_stretchr_object
 		stretchr.people(123).books
 
 		assert_equal(true, stretchr.signed_uri.validate_param_presence("~sign"), "~sign param expected")

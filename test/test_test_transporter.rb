@@ -1,6 +1,5 @@
 require 'test/unit'
 require 'test_helper.rb'
-require 'stretchr'
 
 class TestTransporterTest < Test::Unit::TestCase
 

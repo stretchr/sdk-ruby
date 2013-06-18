@@ -1,6 +1,5 @@
 require 'test/unit'
 require 'test_helper.rb'
-require 'stretchr'
 
 class StretchrRequestTest < Test::Unit::TestCase
 
@@ -23,4 +22,5 @@ class StretchrRequestTest < Test::Unit::TestCase
 
   end
 
+  
 end
