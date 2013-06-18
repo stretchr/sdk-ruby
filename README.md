@@ -92,7 +92,7 @@ In addition to working with the api directly, you can also define your stretchr 
     end
 
 #### Setup your resources
-    class Books < Stretchr::Resource
+    class Book < Stretchr::Resource
       stretchr_config path: "/accounts/:account_id/books/:id"
     end
 
