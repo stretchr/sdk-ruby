@@ -1,14 +1,16 @@
-class Stretchr::Request
+module Stretchr
+	class Request
 
-  attr_accessor :http_method, :body, :signed_uri, :headers
+	  attr_accessor :http_method, :body, :signed_uri, :headers
 
-  def initialize(options = {})
+	  def initialize(options = {})
 
-    @http_method = options[:http_method]
-    @body = options[:body]
-    @signed_uri = options[:signed_uri]
-    @headers = options[:headers]
+	    @http_method = options[:http_method]
+	    @body = options[:body]
+	    @signed_uri = options[:signed_uri]
+	    @headers = options[:headers]
 
-  end
+	  end
 
+	end
 end
