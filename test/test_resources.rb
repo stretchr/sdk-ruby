@@ -107,6 +107,15 @@ class ResourcesTest < Test::Unit::TestCase
 		assert_equal "tim", accounts[1].stretchr_id, "Second object should work!"
 	end
 
+	def test_create_with_id
+		response = Stretchr::GenerateResponse.post_response({deltas: [{"~id" => "asdf"}]})
+		Account.load_response(response)
+
+		account = Account.create({name: "Ryan", stretchr_id: "ryan-id"})
+
+		assert Account.stretchr_client.transporter.requests.last.body.include?("~id"), "Should have set the ~id for stretchr"
+	end
+
 	def test_not_found
 		response = Stretchr::GenerateResponse.get_single_response({status: 404})
 		Account.load_response(response)

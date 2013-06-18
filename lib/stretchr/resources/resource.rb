@@ -42,6 +42,7 @@ module Stretchr
 		def self.create(objects = [], params = {})
 			#convert it to an array for easy adding
 			objects = [objects] if !objects.is_a?(Array)
+			objects.map! {|o| setup_attributes_for_stretchr(o) }
 			stretchr = stretchr_client
 			stretchr.path = prep_path(stretchr.path.dup, params)
 			stretchr.body(objects)
@@ -111,9 +112,13 @@ module Stretchr
 		end
 
 		def setup_attributes_for_stretchr
-			attributes = {}
-			@attributes.each_pair {|key, value| attributes[key.to_s.gsub(/^stretchr_/, "~")] = value}
-			attributes
+			self.class.setup_attributes_for_stretchr(@attributes)
+		end
+
+		def self.setup_attributes_for_stretchr(attributes)
+			stretchr_attributes = {}
+			attributes.each_pair {|key, value| stretchr_attributes[key.to_s.gsub(/^stretchr_/, "~")] = value}
+			stretchr_attributes
 		end
 
 	end
