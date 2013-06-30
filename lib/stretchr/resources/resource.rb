@@ -74,7 +74,11 @@ module Stretchr
 			stretchr = self.class.stretchr_client
 			stretchr.path = self.class.prep_path(stretchr.path.dup, params)
 			stretchr.body(setup_attributes_for_stretchr)
-			response = stretchr.post
+			if self.stretchr_id
+				response = stretchr.put
+			else
+				response = stretchr.post
+			end
 			parse_changes(response.changed)
 		end
 

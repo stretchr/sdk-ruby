@@ -88,7 +88,18 @@ class ResourcesTest < Test::Unit::TestCase
 	end
 
 	def test_save_old_project
-		flunk "not implemented"
+		response = Stretchr::GenerateResponse.get_single_response({status: 200, data: {"~id" => "test", name: "Ryan"}})
+		Account.load_response(response)
+		account = Account.find({id: "test"})
+
+		account.name = "Ryan"
+
+		response = Stretchr::GenerateResponse.post_response
+		Account.load_response(response)
+		account.save
+
+		assert Account.stretchr_client.transporter.requests.last.http_method == :put, "Should have sent a put to update stretchr object"
+
 	end
 
 	def test_create_method
