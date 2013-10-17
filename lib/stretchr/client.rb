@@ -7,6 +7,8 @@ module Stretchr
 		# ==== Paramters
 		# +options[:project]+ - The project you're working with
 		# +options[:key]+ - The key for the project you want to use
+		# +options[:transporter]+ - The transporter to use for actually making requests
+		# +options[:api_version]+ - The stretchr API endpoint we want to communicate with
 		def initialize(options = {})
 			self.transporter = options[:transporter]
 			self.api_version = options[:api_version] || "v1.1"
