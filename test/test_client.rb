@@ -31,6 +31,13 @@ describe "Client" do
 		assert_equal "asdf2", stretchr.key, "Should have let me pass in the key"
 	end
 
+	it "Should pass the project to the request" do
+		stretchr = Stretchr::Client.new({project: "asdf", api_version: "v1.1"})
+		r = stretchr.people
+		assert_equal "https://asdf.stretchr.com/api/v1.1/", r.base_url, "Should have passed the project into the request"
+	end
+
+
 	it "Shoud let me specify a base url for custom stretchr instances"
 
 
