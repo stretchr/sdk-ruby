@@ -17,6 +17,11 @@ module Stretchr
 			@path_elements.join("/")
 		end
 
+		# Returns the full url, including the path for the current request
+		def to_url
+			"#{base_url}#{path}"
+		end
+
 		# Catch everyting not defined and turn it into url parameters
 		# If you include an argument, it will be passed into the url as the ID for the
 		# collection you specified in the method name
