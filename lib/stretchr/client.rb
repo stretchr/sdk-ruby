@@ -1,6 +1,6 @@
 module Stretchr
 	class Client
-		attr_accessor :transporter, :api_version, :base_url
+		attr_accessor :transporter, :api_version, :project, :key
 		# Initializes a new stretchr client
 		# This is the main entrypoint into working with stretchr
 		#
@@ -10,6 +10,8 @@ module Stretchr
 		def initialize(options = {})
 			self.transporter = options[:transporter]
 			self.api_version = options[:api_version] || "v1.1"
+			self.project = options[:project]
+			self.key = options[:key]
 		end
 
 		# Catches everything you can throw at client and passes it on to a new request object
