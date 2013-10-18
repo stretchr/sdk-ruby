@@ -3,3 +3,4 @@ hostname: stretchr.com
 v1.1:
   status: ~status
   data: ~data
+  errors: ~errors

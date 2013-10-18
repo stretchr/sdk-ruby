@@ -32,6 +32,6 @@ describe "Response" do
 	it "Should know how to extract errors out" do
 		r = Stretchr::Response.new(load_api_response("not_found_error.json"))
 		assert_equal false, r.success?, "Should have registered as a failure"
-		flunk #add the checks for checking the messages
+		assert_equal "one", r.errors.first["~message"], "Should have returned the errors as an array"
 	end
 end

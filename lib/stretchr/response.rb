@@ -1,13 +1,14 @@
 require "json"
 module Stretchr
 	class Response
-		attr_reader :raw, :parsed, :data, :api_version
+		attr_reader :raw, :parsed, :data, :api_version, :errors
 		def initialize(response, options = {})
 			@api_version = options[:api_version] || Stretchr.config["api_version"]
 			@raw = response
 			@parsed = JSON.parse(response)
 			begin
 				@data = @parsed[Stretchr.config[@api_version]["data"]]
+				@errors = @parsed[Stretchr.config[@api_version]["errors"]]
 			rescue
 			end
 		end
