@@ -53,6 +53,22 @@ module Stretchr
 			return self
 		end
 
+		# Sets the maximum number of items you want to get back
+		# ==== Examples
+		# r = Stretchr::Request.new
+		# r.accounts.limit(10).get #=> Returns 10 accounts
+		def limit(value)
+			param("limit", value)
+		end
+
+		# Tell stretchr to skip some items in the response
+		# ==== Examples
+		# r = Stretchr::Request.new
+		# r.accounts.limit(10).skip(10).get #=> Returns 10 accounts, starting at 11
+		def skip(value)
+			param("skip", value)
+		end
+
 		# Performs a GET for the current request
 		# Returns a Stretchr::Response object
 		#

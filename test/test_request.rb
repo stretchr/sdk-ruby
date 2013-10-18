@@ -114,4 +114,12 @@ describe "Request Object" do
 		assert_equal "http://project.stretchr.com/api/v1.1/people", r.to_url, "Should have saved the right url in the request"
 		assert_equal "http://project.stretchr.com/api/v1.1/people", t.requests.first[:uri].to_s, "Should have created the right URL and sent it to the transporter"
 	end
+
+	it "Should know how to handle paging" do
+		c = Stretchr::Client.new({project: "project", api_version: "v1.1"})
+		r = Stretchr::Request.new({client: c})
+		r.people.limit(10).skip(10)
+		assert r.to_uri.validate_param_value("limit", "10")
+		assert r.to_uri.validate_param_value("skip", "10")
+	end
 end
