@@ -4,7 +4,7 @@ module Stretchr
 		# Initializes a new stretchr client
 		# This is the main entrypoint into working with stretchr
 		#
-		# ==== Paramters
+		# ==== Parameters
 		# +options[:project]+ - The project you're working with
 		# +options[:key]+ - The key for the project you want to use
 		# +options[:transporter]+ - The transporter to use for actually making requests
