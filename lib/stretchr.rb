@@ -1,7 +1,3 @@
-require "uri"
-require "cgi"
-require "json"
-
 # The main stretchr client
 require "stretchr/client"
 
@@ -17,3 +13,8 @@ require "stretchr/bag"
 # you pass in a request object, it performs the request and then
 # returns a response object
 require "stretchr/transporters/test_transporter" # a transporter for testing, does not make real requests
+
+# Response object
+# The response object takes in a JSON response from stretchr
+# and parses it into more easily used data
+require "stretchr/response"
