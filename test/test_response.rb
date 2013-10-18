@@ -44,4 +44,9 @@ describe "Response" do
 		r = Stretchr::Response.new(load_api_response("get_single_response.json"))
 		assert_equal 200, r.status, "Should have pulled out the response"
 	end
+
+	it "Should know how to pull items out of a response" do
+		r = Stretchr::Response.new(load_api_response("get_collection_response.json"))
+		assert_equal "Mat", r.items.first["name"], "Should know how to pull items from response"
+	end
 end
