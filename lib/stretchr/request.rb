@@ -60,7 +60,7 @@ module Stretchr
 		# r = Stretchr::Request.new
 		# r.people.get #=> Stretchr::Response object
 		def get
-			self.client.transporter.make_request({uri: this.to_uri, method: :get})
+			self.make_request!({uri: this.to_uri, method: :get})
 		end
 
 		# Performs a POST to create a new resource
@@ -70,7 +70,7 @@ module Stretchr
 		# r = Stretchr::Request.new
 		# r.people.create({name: "ryan"}) #=> Stretchr::Response object
 		def create(body)
-			self.client.transporter.make_request({uri: this.to_uri, method: :post, body: body})
+			self.make_request!({uri: this.to_uri, method: :post, body: body})
 		end
 
 		# Performs a PUT to replace an object
@@ -80,7 +80,7 @@ module Stretchr
 		# r = Stretchr::Request.new
 		# r.people.replace({name: "ryan"}) #=> Stretchr::Response object
 		def replace(body)
-			self.client.transporter.make_request({uri: this.to_uri, method: :put, body: body})
+			self.make_request!({uri: this.to_uri, method: :put, body: body})
 		end
 
 		# Performs a PATCH to update an object
@@ -92,7 +92,7 @@ module Stretchr
 		# r = Stretchr::Request.new
 		# r.people.update({name: "ryan"}) #=> Stretchr::Response object
 		def update(body)
-			self.client.transporter.make_request({uri: this.to_uri, method: :patch, body: body})
+			self.make_request!({uri: this.to_uri, method: :patch, body: body})
 		end
 
 		# Performs a DELETE to remove an object
@@ -103,7 +103,12 @@ module Stretchr
 		# r = Stretchr::Request.new
 		# r.people.remove #=> Stretchr::Response object
 		def remove
-			self.client.transporter.make_request({uri: this.to_uri, method: :delete})
+			self.make_request!({uri: this.to_uri, method: :delete})
+		end
+
+		# Actually sends the request to the transporter
+		def make_request!(options = {})
+			self.client.transporter.make_request(options)
 		end
 
 
