@@ -48,4 +48,19 @@ describe "Request Object" do
 		r.where("age", [">21", "<40"])
 		assert_equal [">21", "<40"], r.to_uri.get_param(":age"), "Should have added multiple ages"
 	end
+
+	it "Should let you get objects" do
+		t = Stretchr::TestTransporter.new
+		r = Stretchr::Request.new({base_url: "project.stretchr.com", transporter: t})
+		r.people.get
+		assert_equal :get, t.requests.first[:method], "Should have performed a get request"
+	end
+
+	it "Should let you create new objects" do
+		t = Stretchr::TestTransporter.new
+		r = Stretchr::Request.new({base_url: "project.stretchr.com", transporter: t})
+		r.people.create({name: "ryan"})
+		assert_equal :post, t.requests.first[:method], "Should have performed a post"
+		assert_equal "ryan", t.requests.first[:body][:name], "Should have sent the body to the transporter"
+	end
 end

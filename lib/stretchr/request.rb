@@ -57,6 +57,27 @@ module Stretchr
 			return self
 		end
 
+		# Performs a GET for the current request
+		# Returns a Stretchr::Response object
+		#
+		# ==== Examples
+		# r = Stretchr::Request.new
+		# r.people.get #=> Stretchr::Response object
+		def get
+			self.transporter.make_request({uri: this.to_uri, method: :get})
+		end
+
+		# Performs a POST to create a new resource
+		# Returns a Stretchr::Response object
+		#
+		# ==== Examples
+		# r = Stretchr::Request.new
+		# r.people.create({name: "ryan"}) #=> Stretchr::Response object
+		def create(body)
+			self.transporter.make_request({uri: this.to_uri, method: :post, body: body})
+		end
+
+
 		# Catch everyting not defined and turn it into url parameters
 		# If you include an argument, it will be passed into the url as the ID for the
 		# collection you specified in the method name
