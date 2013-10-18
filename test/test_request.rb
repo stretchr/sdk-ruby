@@ -119,12 +119,19 @@ describe "Request Object" do
 		c = Stretchr::Client.new({project: "project", api_version: "v1.1"})
 		r = Stretchr::Request.new({client: c})
 		r.people.limit(10).skip(10)
-		assert r.to_uri.validate_param_value("limit", "10")
-		assert r.to_uri.validate_param_value("skip", "10")
+		assert r.to_uri.validate_param_value("limit", "10"), "should have added limit"
+		assert r.to_uri.validate_param_value("skip", "10"), "should have added skip"
 
 		r2 = Stretchr::Request.new({client: c})
 		r2.people.limit(10).page(2)
-		assert r2.to_uri.validate_param_value("limit", "10")
-		assert r2.to_uri.validate_param_value("skip", "10")
+		assert r2.to_uri.validate_param_value("limit", "10"), "should have added limit"
+		assert r2.to_uri.validate_param_value("skip", "10"), "should have added skip from paging"
+	end
+
+	it "Should understand how to do ordering" do
+		c = Stretchr::Client.new({project: "project", api_version: "v1.1"})
+		r = Stretchr::Request.new({client: c})
+		r.order("-name,age")
+		assert r.to_uri.validate_param_value("order", "-name,age"), "should have added order attribute"
 	end
 end

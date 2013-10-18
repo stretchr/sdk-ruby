@@ -79,6 +79,14 @@ module Stretchr
 			skip((l.to_i * value.to_i) - l.to_i)
 		end
 
+		# Set the order of the response
+		# ==== Examples
+		# r = Stretchr::Request.new
+		# r.accounts.order("-name").get #=> Orders accounts by name, descending
+		def order(value)
+			param("order", value)
+		end
+
 		# Performs a GET for the current request
 		# Returns a Stretchr::Response object
 		#
