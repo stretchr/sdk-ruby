@@ -108,6 +108,7 @@ module Stretchr
 
 		# Actually sends the request to the transporter
 		def make_request!(options = {})
+			options[:client] = client
 			self.client.transporter.make_request(options)
 		end
 

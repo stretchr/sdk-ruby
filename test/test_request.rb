@@ -97,4 +97,12 @@ describe "Request Object" do
 		r = Stretchr::Request.new({client: client})
 		assert_equal client, r.client, "Should have passed the client to the request"
 	end
+
+	it "Should pass the client to the transporter" do
+		t = Stretchr::TestTransporter.new
+		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
+		r = Stretchr::Request.new({client: c})
+		r.people.get
+		assert_equal c, t.requests.first[:client], "Should have passed the client to the transporter"
+	end
 end
