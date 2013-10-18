@@ -22,7 +22,7 @@ describe "Client" do
 	it "Should pass the api version to the request" do
 		stretchr = Stretchr::Client.new({api_version: "v1.1"})
 		r = stretchr.people
-		assert r.base_url.include?("api/v1.1"), "Should have passed the api version to the request"
+		assert_equal "v1.1", r.api_version, "Should have passed the api version to the request"
 	end
 
 	it "Should let me specify the project and key" do
@@ -34,7 +34,7 @@ describe "Client" do
 	it "Should pass the project to the request" do
 		stretchr = Stretchr::Client.new({project: "asdf", api_version: "v1.1"})
 		r = stretchr.people
-		assert_equal "https://asdf.stretchr.com/api/v1.1/", r.base_url, "Should have passed the project into the request"
+		assert_equal "https://asdf.stretchr.com", r.base_url, "Should have passed the project into the request"
 	end
 
 
