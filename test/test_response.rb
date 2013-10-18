@@ -39,4 +39,9 @@ describe "Response" do
 		r = Stretchr::Response.new(load_api_response("post_single_object.json"))
 		assert_equal 1, r.changes["~created"], "Should have returned the changes"
 	end
+
+	it "Should give me access to the status" do
+		r = Stretchr::Response.new(load_api_response("get_single_response.json"))
+		assert_equal 200, r.status, "Should have pulled out the response"
+	end
 end
