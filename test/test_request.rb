@@ -121,5 +121,10 @@ describe "Request Object" do
 		r.people.limit(10).skip(10)
 		assert r.to_uri.validate_param_value("limit", "10")
 		assert r.to_uri.validate_param_value("skip", "10")
+
+		r2 = Stretchr::Request.new({client: c})
+		r2.people.limit(10).page(2)
+		assert r2.to_uri.validate_param_value("limit", "10")
+		assert r2.to_uri.validate_param_value("skip", "10")
 	end
 end

@@ -69,6 +69,16 @@ module Stretchr
 			param("skip", value)
 		end
 
+		# Convenience method for using pages instead of skip values
+		# defaults to 1000 if no limit is known yet
+		# ==== Examples
+		# r = Stretchr::Request.new
+		# r.accounts.limit(10).page(2).get #=> Returns 10 accounts, starting at 11
+		def page(value)
+			l = @params.get("limit") || 1000
+			skip((l.to_i * value.to_i) - l.to_i)
+		end
+
 		# Performs a GET for the current request
 		# Returns a Stretchr::Response object
 		#
