@@ -2,6 +2,10 @@ require "cgi" unless defined? CGI
 require_relative "../lib/stretchr"
 require "minitest/autorun"
 
+def load_api_response(filename)
+	File.open(File.join(Dir.pwd, "test", "stubs", filename)) {|f| f.read }
+end
+
 module URI
 
 	def get_param(param)
