@@ -50,6 +50,11 @@ describe "Client" do
 		assert_equal transporter, r.transporter, "should have passed the transporter to the request"
 	end
 
+	it "Should have a default api_version" do
+		stretchr = Stretchr::Client.new
+		assert stretchr.api_version, "Should have set a default api version"
+	end
+
 
 	it "Shoud let me specify a base url for custom stretchr instances"
 
