@@ -19,6 +19,7 @@ module Stretchr
 			end
 		end
 
+		# Generates the actual request, including the method
 		def generate_request(request)
 
 			request_uri = request[:uri].request_uri
