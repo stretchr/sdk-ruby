@@ -86,4 +86,9 @@ describe "Request Object" do
 		r.people(1).remove
 		assert_equal :delete, t.requests.first[:method], "Should have performed a put"
 	end
+
+	it "Should set a default api version" do
+		r = Stretchr::Request.new
+		assert r.api_version, "it should have set a default api version"
+	end
 end

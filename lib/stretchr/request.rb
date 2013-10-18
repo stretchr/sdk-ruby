@@ -10,7 +10,7 @@ module Stretchr
 			# This is where we'll define everything needed to build up the request
 			# and make it
 			self.base_url = options[:base_url] || "" # the base url for the stretchr instance, default to project.stretchr.com
-			self.api_version = options[:api_version] || "" # the version of the api to use, for /api/v1.1
+			self.api_version = options[:api_version] || Stretchr.config["api_version"] # the version of the api to use, for /api/v1.1
 			self.transporter = options[:transporter] # the transporter used to send requests
 
 			# URL BUILDING
