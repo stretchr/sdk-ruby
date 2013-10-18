@@ -4,14 +4,10 @@ module Stretchr
 	# The request class is where most of the url building magic takes place
 	# It collects all methods passed to it and uses them to build a url for you
 	class Request
-		attr_accessor :base_url, :api_version, :transporter
+		attr_accessor :client
 		def initialize(options = {})
-			# DEFAULTS AND OPTIONS
-			# This is where we'll define everything needed to build up the request
-			# and make it
-			self.base_url = options[:base_url] || "" # the base url for the stretchr instance, default to project.stretchr.com
-			self.api_version = options[:api_version] || Stretchr.config["api_version"] # the version of the api to use, for /api/v1.1
-			self.transporter = options[:transporter] # the transporter used to send requests
+			# Pass in the client so we get all the options required
+			self.client = options[:client]
 
 			# URL BUILDING
 			# This is where we'll initialize everything needed to build up the urls
@@ -36,7 +32,7 @@ module Stretchr
 
 		# Builds a URI object
 		def to_uri
-			URI::HTTPS.build(host: base_url, path: merge_path, query: merge_query)
+			URI::HTTPS.build(host: merge_host, path: merge_path, query: merge_query)
 		end
 
 		# Set params for the url
@@ -64,7 +60,7 @@ module Stretchr
 		# r = Stretchr::Request.new
 		# r.people.get #=> Stretchr::Response object
 		def get
-			self.transporter.make_request({uri: this.to_uri, method: :get})
+			self.client.transporter.make_request({uri: this.to_uri, method: :get})
 		end
 
 		# Performs a POST to create a new resource
@@ -74,7 +70,7 @@ module Stretchr
 		# r = Stretchr::Request.new
 		# r.people.create({name: "ryan"}) #=> Stretchr::Response object
 		def create(body)
-			self.transporter.make_request({uri: this.to_uri, method: :post, body: body})
+			self.client.transporter.make_request({uri: this.to_uri, method: :post, body: body})
 		end
 
 		# Performs a PUT to replace an object
@@ -84,7 +80,7 @@ module Stretchr
 		# r = Stretchr::Request.new
 		# r.people.replace({name: "ryan"}) #=> Stretchr::Response object
 		def replace(body)
-			self.transporter.make_request({uri: this.to_uri, method: :put, body: body})
+			self.client.transporter.make_request({uri: this.to_uri, method: :put, body: body})
 		end
 
 		# Performs a PATCH to update an object
@@ -96,7 +92,7 @@ module Stretchr
 		# r = Stretchr::Request.new
 		# r.people.update({name: "ryan"}) #=> Stretchr::Response object
 		def update(body)
-			self.transporter.make_request({uri: this.to_uri, method: :patch, body: body})
+			self.client.transporter.make_request({uri: this.to_uri, method: :patch, body: body})
 		end
 
 		# Performs a DELETE to remove an object
@@ -107,7 +103,7 @@ module Stretchr
 		# r = Stretchr::Request.new
 		# r.people.remove #=> Stretchr::Response object
 		def remove
-			self.transporter.make_request({uri: this.to_uri, method: :delete})
+			self.client.transporter.make_request({uri: this.to_uri, method: :delete})
 		end
 
 
@@ -127,7 +123,7 @@ module Stretchr
 		private
 
 		def merge_path
-			"/api/#{api_version}/#{@path_elements.join('/')}"
+			"/api/#{client.api_version}/#{@path_elements.join('/')}"
 		end
 
 		def merge_query
@@ -135,6 +131,10 @@ module Stretchr
 			p << @params.query_string unless @params.query_string == ""
 			p << @filters.query_string unless @filters.query_string == ""
 			return p.size > 0 ? p.join("&") : nil
+		end
+
+		def merge_host
+			"#{client.project}.#{client.hostname}"
 		end
 	end
 end

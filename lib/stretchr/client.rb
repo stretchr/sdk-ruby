@@ -1,6 +1,6 @@
 module Stretchr
 	class Client
-		attr_accessor :transporter, :api_version, :project, :key
+		attr_accessor :transporter, :api_version, :project, :key, :hostname
 		# Initializes a new stretchr client
 		# This is the main entrypoint into working with stretchr
 		#
@@ -14,6 +14,7 @@ module Stretchr
 			self.api_version = options[:api_version] || Stretchr.config["api_version"]
 			self.project = options[:project]
 			self.key = options[:key]
+			self.hostname = options[:hostname] || Stretchr.config["hostname"]
 		end
 
 		# Catches everything you can throw at client and passes it on to a new request object
@@ -25,7 +26,7 @@ module Stretchr
 		# stretchr = Stretchr::Client.new({project: "project", key: "key"})
 		# stretchr.people(1).cars.path # => people/1/cars
 		def method_missing(method, *args)
-			r = Stretchr::Request.new({base_url: "#{project}.stretchr.com", api_version: api_version, transporter: transporter})
+			r = Stretchr::Request.new({client: self})
 			r.param("key", key) if key
 			r.send(method, *args)
 		end

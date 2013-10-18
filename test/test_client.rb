@@ -19,35 +19,16 @@ describe "Client" do
 		assert_equal "1.1", stretchr.api_version, "Should let me specify the api version that I want"
 	end
 
-	it "Should pass the api version to the request" do
-		stretchr = Stretchr::Client.new({api_version: "v1.1"})
-		r = stretchr.people
-		assert_equal "v1.1", r.api_version, "Should have passed the api version to the request"
-	end
-
 	it "Should let me specify the project and key" do
 		stretchr = Stretchr::Client.new({project: "asdf", key: "asdf2"})
 		assert_equal "asdf", stretchr.project, "Should have let me pass in the project"
 		assert_equal "asdf2", stretchr.key, "Should have let me pass in the key"
 	end
 
-	it "Should pass the project to the request" do
+	it "Should pass the client to the request" do
 		stretchr = Stretchr::Client.new({project: "asdf", api_version: "v1.1"})
 		r = stretchr.people
-		assert_equal "asdf.stretchr.com", r.base_url, "Should have passed the project into the request"
-	end
-
-	it "Should pass the key to the request" do
-		stretchr = Stretchr::Client.new({key: "asdf", project: "project"})
-		r = stretchr.people
-		assert_equal ["asdf"], r.to_uri.get_param("key"), "Should have added the key to the url"
-	end
-
-	it "Should pass the transporter to request" do
-		transporter = Object.new
-		stretchr = Stretchr::Client.new({transporter: transporter})
-		r = stretchr.people
-		assert_equal transporter, r.transporter, "should have passed the transporter to the request"
+		assert_equal stretchr, r.client, "Should have passed the client into the request"
 	end
 
 	it "Should have a default api_version" do
@@ -55,6 +36,15 @@ describe "Client" do
 		assert stretchr.api_version, "Should have set a default api version"
 	end
 
+	it "Should let me specify the hostname I want" do
+		stretchr = Stretchr::Client.new({hostname: "ryon.com"})
+		assert_equal "ryon.com", stretchr.hostname, "Should have let me specify the hostname I want"
+	end
+
+	it "Should default to the stretchr hostname" do
+		stretchr = Stretchr::Client.new
+		assert_equal 'stretchr.com', stretchr.hostname, "Should have defaulted to the correct hostname"
+	end
 
 	it "Shoud let me specify a base url for custom stretchr instances"
 
