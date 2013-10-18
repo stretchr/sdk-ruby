@@ -99,6 +99,17 @@ module Stretchr
 			self.transporter.make_request({uri: this.to_uri, method: :patch, body: body})
 		end
 
+		# Performs a DELETE to remove an object
+		# deletes an object or entire collection
+		# SERIOUSLY - THIS DELETES THINGS
+		#
+		# ==== Examples
+		# r = Stretchr::Request.new
+		# r.people.remove #=> Stretchr::Response object
+		def remove
+			self.transporter.make_request({uri: this.to_uri, method: :delete})
+		end
+
 
 		# Catch everyting not defined and turn it into url parameters
 		# If you include an argument, it will be passed into the url as the ID for the

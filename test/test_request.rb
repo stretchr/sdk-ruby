@@ -79,4 +79,11 @@ describe "Request Object" do
 		assert_equal :patch, t.requests.first[:method], "Should have performed a put"
 		assert_equal "ryan", t.requests.first[:body][:name], "Should have sent the body to the transporter"
 	end
+
+	it "Should let you remove an object or collection" do
+		t = Stretchr::TestTransporter.new
+		r = Stretchr::Request.new({base_url: "project.stretchr.com", transporter: t})
+		r.people(1).remove
+		assert_equal :delete, t.requests.first[:method], "Should have performed a put"
+	end
 end
