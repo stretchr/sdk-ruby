@@ -34,4 +34,9 @@ describe "Response" do
 		assert_equal false, r.success?, "Should have registered as a failure"
 		assert_equal "one", r.errors.first["~message"], "Should have returned the errors as an array"
 	end
+
+	it "Should be able to return the changes" do
+		r = Stretchr::Response.new(load_api_response("post_single_object.json"))
+		assert_equal 1, r.changes["~created"], "Should have returned the changes"
+	end
 end
