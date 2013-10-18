@@ -77,6 +77,16 @@ module Stretchr
 			self.transporter.make_request({uri: this.to_uri, method: :post, body: body})
 		end
 
+		# Performs a PUT to replace an object
+		# Returns a Stretchr::Response object
+		#
+		# ==== Examples
+		# r = Stretchr::Request.new
+		# r.people.replace({name: "ryan"}) #=> Stretchr::Response object
+		def replace(body)
+			self.transporter.make_request({uri: this.to_uri, method: :put, body: body})
+		end
+
 
 		# Catch everyting not defined and turn it into url parameters
 		# If you include an argument, it will be passed into the url as the ID for the
