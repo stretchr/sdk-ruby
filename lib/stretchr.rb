@@ -1,3 +1,13 @@
+# Config File 
+# This file contains all the configuration for the stretchr api
+# and this gem.  They are namespaced by api version where appropriate
+require "yaml"
+module Stretchr
+	def self.config
+		@config ||= YAML::load_file(File.join(Dir.pwd,"lib", "stretchr", "defaults.yaml"))
+	end
+end
+
 # The main stretchr client
 require "stretchr/client"
 

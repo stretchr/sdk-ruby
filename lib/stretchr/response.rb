@@ -1,10 +1,11 @@
 require "json"
 module Stretchr
 	class Response
-		attr_reader :raw, :parsed
+		attr_reader :raw, :parsed, :data
 		def initialize(response)
 			@raw = response
 			@parsed = JSON.parse(response)
+			@data = @parsed["~data"]
 		end
 
 		def success?

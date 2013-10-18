@@ -17,4 +17,9 @@ describe "Response" do
 		r = Stretchr::Response.new(d)
 		assert_equal "ryon", r.parsed["name"], "Should have parsed out the data"
 	end
+
+	it "Should no how to pull out data from a stretchr response" do
+		r = Stretchr::Response.new(load_api_response("get_single_response.json"))
+		assert_equal "value", r.data["field"], "Should have pulled actual data from stretchr standard response"
+	end
 end
