@@ -5,4 +5,8 @@ describe "Response" do
 		r = Stretchr::Response.new("test")
 		assert_equal "test", r.raw, "Should have saved the raw response"
 	end
+
+	it "Should know if the response was successfull" do
+		flunk
+	end
 end
