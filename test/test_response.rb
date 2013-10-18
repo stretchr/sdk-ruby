@@ -28,4 +28,10 @@ describe "Response" do
 		r = Stretchr::Response.new(d, {api_version: "v2"})
 		assert_equal "v2", r.api_version, "Should have let me specify the api version"
 	end
+
+	it "Should know how to extract errors out" do
+		r = Stretchr::Response.new(load_api_response("not_found_error.json"))
+		assert_equal false, r.success?, "Should have registered as a failure"
+		flunk #add the checks for checking the messages
+	end
 end
