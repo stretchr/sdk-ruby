@@ -37,6 +37,7 @@ module Stretchr
 		# r.param("key", "value")
 		def param(key, value)
 			@params.set(key, value)
+			return self
 		end
 
 		# Catch everyting not defined and turn it into url parameters

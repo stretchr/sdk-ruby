@@ -31,7 +31,8 @@ describe "Request Object" do
 	it "should let you chain params" do
 		r = Stretchr::Request.new({base_url: "project.stretchr.com"})
 		r.param("key", "asdf").param("key2", "asdf2")
-		assert_equal "asdf", get_param("key"), "should have set key"
-		assert_equal "asdf2", get_param("key2"), "Should have set key2"
+		uri = r.to_uri
+		assert_equal "asdf", uri.get_param("key").first, "should have set key"
+		assert_equal "asdf2", uri.get_param("key2").first, "Should have set key2"
 	end
 end
