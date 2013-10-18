@@ -2,15 +2,18 @@ require "uri"
 
 module Stretchr
 	class Bag
-		def initialize
+		def initialize(options = {})
 			@params = {}
+			@prefix = options[:prefix]
 		end
 
 		def set(param, value)
+			param = "#{@prefix}#{param}" if @prefix
 			@params[param] = value
 		end
 
 		def get(param)
+			param = "#{@prefix}#{param}" if @prefix
 			@params[param]
 		end
 
