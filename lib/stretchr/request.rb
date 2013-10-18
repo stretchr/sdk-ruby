@@ -128,10 +128,12 @@ module Stretchr
 
 		private
 
+		# Merges the path from the @path_elements
 		def merge_path
 			"/api/#{client.api_version}/#{@path_elements.join('/')}"
 		end
 
+		# Merges query params and filter params
 		def merge_query
 			p = []
 			p << @params.query_string unless @params.query_string == ""
@@ -139,6 +141,7 @@ module Stretchr
 			return p.size > 0 ? p.join("&") : nil
 		end
 
+		# Generate the host from the hostname and project
 		def merge_host
 			"#{client.project}.#{client.hostname}"
 		end
