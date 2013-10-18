@@ -16,7 +16,7 @@ module Stretchr
 		end
 
 		def success?
-			@parsed[Stretchr.config[@api_version]["status"]] >= 200 && @parsed[Stretchr.config[@api_version]["status"]] <= 299
+			@status >= 200 && @status <= 299
 		end
 	end
 end
