@@ -10,7 +10,7 @@ module Stretchr
 		# +options[:transporter]+ - The transporter to use for actually making requests
 		# +options[:api_version]+ - The stretchr API endpoint we want to communicate with
 		def initialize(options = {})
-			self.transporter = options[:transporter]
+			self.transporter = options[:transporter] || Stretchr::JSONTransporter.new
 			self.api_version = options[:api_version] || Stretchr.config["api_version"]
 			self.project = options[:project]
 			self.key = options[:key]

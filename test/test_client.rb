@@ -46,7 +46,10 @@ describe "Client" do
 		assert_equal 'stretchr.com', stretchr.hostname, "Should have defaulted to the correct hostname"
 	end
 
-	it "Shoud let me specify a base url for custom stretchr instances"
+	it "Should set a default transporter if I don't" do
+		stretchr = Stretchr::Client.new
+		assert_equal Stretchr::JSONTransporter, stretchr.transporter.class, "Should have defaulted to JSON transport"
+	end
 
 
 end

@@ -23,6 +23,7 @@ require "stretchr/bag"
 # you pass in a request object, it performs the request and then
 # returns a response object
 require "stretchr/transporters/test_transporter" # a transporter for testing, does not make real requests
+require "stretchr/transporters/json_transporter" # a transporter that uses json to talk to stretchr
 
 # Response object
 # The response object takes in a JSON response from stretchr
