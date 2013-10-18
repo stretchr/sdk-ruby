@@ -1,3 +1,5 @@
+require "uri" if !defined? URI
+require "net/http" if !defined? Net
 module Stretchr
 	class JSONTransporter
 		def make_request(request, options = {})
@@ -14,8 +16,8 @@ module Stretchr
 
 		def generate_request(request)
 
-			request_uri = request.uri.request_uri
-
+			request_uri = request[:uri].request_uri
+			
 			case request[:method]
 			when :get
 				req = Net::HTTP::Get.new request_uri

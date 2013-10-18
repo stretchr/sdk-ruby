@@ -105,4 +105,13 @@ describe "Request Object" do
 		r.people.get
 		assert_equal c, t.requests.first[:client], "Should have passed the client to the transporter"
 	end
+
+	it "should pass the correct uri to the transporter" do
+		t = Stretchr::TestTransporter.new
+		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
+		r = Stretchr::Request.new({client: c})
+		r.people.get
+		assert_equal "https://project.stretchr.com/api/v1.1/people", r.to_url, "Should have saved the right url in the request"
+		assert_equal "https://project.stretchr.com/api/v1.1/people", t.requests.first[:uri].to_s, "Should have created the right URL and sent it to the transporter"
+	end
 end
