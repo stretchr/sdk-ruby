@@ -10,6 +10,7 @@ module Stretchr
 			self.base_url = options[:base_url] || "" # the base url for the stretchr instance, default to project.stretchr.com
 			self.api_version = options[:api_version] || "" # the version of the api to use, for /api/v1.1
 			@params = Stretchr::Bag.new # a bag to hold the params for th url building
+			@filters = Stretchr::Bag.new({prefix: ":"}) # a bag to hold the filters
 		end
 
 		# Returns the current path that the request is working with
@@ -40,6 +41,15 @@ module Stretchr
 			return self
 		end
 
+		# Set filters for the url
+		# ==== Examples
+		# r = Stretchr::Request.new
+		# r.where("key", "value")
+		def where(key, value)
+			@filters.set(key, value)
+			return self
+		end
+
 		# Catch everyting not defined and turn it into url parameters
 		# If you include an argument, it will be passed into the url as the ID for the
 		# collection you specified in the method name
@@ -60,8 +70,10 @@ module Stretchr
 		end
 
 		def merge_query
-			return nil if @params.query_string == ""
-			@params.query_string
+			p = []
+			p << @params.query_string unless @params.query_string == ""
+			p << @filters.query_string unless @filters.query_string == ""
+			return p.size > 0 ? p.join("&") : nil
 		end
 	end
 end

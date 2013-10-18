@@ -35,4 +35,17 @@ describe "Request Object" do
 		assert_equal "asdf", uri.get_param("key").first, "should have set key"
 		assert_equal "asdf2", uri.get_param("key2").first, "Should have set key2"
 	end
+
+	it "should let you add filters" do
+		r = Stretchr::Request.new({base_url: "project.stretchr.com", api_version: "v1.1"})
+		r.where("name", "ryan").where("age", "21")
+		assert_equal ["ryan"], r.to_uri.get_param(":name"), "Should have added filters"
+		assert_equal ["21"], r.to_uri.get_param(":age"), "Should have added filter for age"
+	end
+
+	it "Should let you add multiple filters" do
+		r = Stretchr::Request.new({base_url: "project.stretchr.com"})
+		r.where("age", [">21", "<40"])
+		assert_equal [">21", "<40"], r.to_uri.get_param(":age"), "Should have added multiple ages"
+	end
 end
