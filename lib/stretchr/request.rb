@@ -87,6 +87,18 @@ module Stretchr
 			self.transporter.make_request({uri: this.to_uri, method: :put, body: body})
 		end
 
+		# Performs a PATCH to update an object
+		# will not delete non-included fields
+		# just update included ones
+		# Returns a Stretchr::Response object
+		#
+		# ==== Examples
+		# r = Stretchr::Request.new
+		# r.people.update({name: "ryan"}) #=> Stretchr::Response object
+		def update(body)
+			self.transporter.make_request({uri: this.to_uri, method: :patch, body: body})
+		end
+
 
 		# Catch everyting not defined and turn it into url parameters
 		# If you include an argument, it will be passed into the url as the ID for the
