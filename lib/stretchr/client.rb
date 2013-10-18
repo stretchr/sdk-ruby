@@ -25,7 +25,7 @@ module Stretchr
 		# stretchr = Stretchr::Client.new({project: "project", key: "key"})
 		# stretchr.people(1).cars.path # => people/1/cars
 		def method_missing(method, *args)
-			r = Stretchr::Request.new({base_url: "#{project}.stretchr.com", api_version: api_version})
+			r = Stretchr::Request.new({base_url: "#{project}.stretchr.com", api_version: api_version, transporter: transporter})
 			r.param("key", key) if key
 			r.send(method, *args)
 		end

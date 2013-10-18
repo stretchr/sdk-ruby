@@ -43,6 +43,13 @@ describe "Client" do
 		assert_equal ["asdf"], r.to_uri.get_param("key"), "Should have added the key to the url"
 	end
 
+	it "Should pass the transporter to request" do
+		transporter = Object.new
+		stretchr = Stretchr::Client.new({transporter: transporter})
+		r = stretchr.people
+		assert_equal transporter, r.transporter, "should have passed the transporter to the request"
+	end
+
 
 	it "Shoud let me specify a base url for custom stretchr instances"
 

@@ -4,11 +4,18 @@ module Stretchr
 	# The request class is where most of the url building magic takes place
 	# It collects all methods passed to it and uses them to build a url for you
 	class Request
-		attr_accessor :base_url, :api_version
+		attr_accessor :base_url, :api_version, :transporter
 		def initialize(options = {})
-			@path_elements = []
+			# DEFAULTS AND OPTIONS
+			# This is where we'll define everything needed to build up the request
+			# and make it
 			self.base_url = options[:base_url] || "" # the base url for the stretchr instance, default to project.stretchr.com
 			self.api_version = options[:api_version] || "" # the version of the api to use, for /api/v1.1
+			self.transporter = options[:transporter] # the transporter used to send requests
+
+			# URL BUILDING
+			# This is where we'll initialize everything needed to build up the urls
+			@path_elements = []
 			@params = Stretchr::Bag.new # a bag to hold the params for th url building
 			@filters = Stretchr::Bag.new({prefix: ":"}) # a bag to hold the filters
 		end
