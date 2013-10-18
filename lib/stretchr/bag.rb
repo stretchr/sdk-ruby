@@ -13,5 +13,9 @@ module Stretchr
 		def get(param)
 			@params[param]
 		end
+
+		def query_string
+			URI.encode_www_form(@params)
+		end
 	end
 end

@@ -11,6 +11,6 @@ describe "Param Bag" do
 		b = Stretchr::Bag.new
 		b.set("include", "~parent")
 		b.set("key", "asdf")
-		assert_equal "include=~parent&key=asdf", b.query_string, "Should let you create a query string"
+		assert_equal "include=%7Eparent&key=asdf", b.query_string, "Should let you create a query string"
 	end
 end
