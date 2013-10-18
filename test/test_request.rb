@@ -10,7 +10,7 @@ describe "Request Object" do
 	it "Should know how to build a complete url including path" do
 		c = Stretchr::Client.new({project: "project", api_version: "v1.1"})
 		r = Stretchr::Request.new({client: c})
-		assert_equal "https://project.stretchr.com/api/v1.1/people/1/cars", r.people(1).cars.to_url, "Should have built the url properly"
+		assert_equal "http://project.stretchr.com/api/v1.1/people/1/cars", r.people(1).cars.to_url, "Should have built the url properly"
 	end
 
 	it "Should let you pass in params" do
@@ -111,7 +111,7 @@ describe "Request Object" do
 		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
 		r = Stretchr::Request.new({client: c})
 		r.people.get
-		assert_equal "https://project.stretchr.com/api/v1.1/people", r.to_url, "Should have saved the right url in the request"
-		assert_equal "https://project.stretchr.com/api/v1.1/people", t.requests.first[:uri].to_s, "Should have created the right URL and sent it to the transporter"
+		assert_equal "http://project.stretchr.com/api/v1.1/people", r.to_url, "Should have saved the right url in the request"
+		assert_equal "http://project.stretchr.com/api/v1.1/people", t.requests.first[:uri].to_s, "Should have created the right URL and sent it to the transporter"
 	end
 end
