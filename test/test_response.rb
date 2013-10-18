@@ -22,4 +22,10 @@ describe "Response" do
 		r = Stretchr::Response.new(load_api_response("get_single_response.json"))
 		assert_equal "value", r.data["field"], "Should have pulled actual data from stretchr standard response"
 	end
+
+	it "Should let me specify my own api_version" do
+		d = {name: "ryon"}.to_json
+		r = Stretchr::Response.new(d, {api_version: "v2"})
+		assert_equal "v2", r.api_version, "Should have let me specify the api version"
+	end
 end
