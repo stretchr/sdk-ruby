@@ -7,8 +7,9 @@ module Stretchr
 		attr_accessor :base_url, :api_version
 		def initialize(options = {})
 			@path_elements = []
-			self.base_url = options[:base_url] || ""
-			self.api_version = options[:api_version] || ""
+			self.base_url = options[:base_url] || "" # the base url for the stretchr instance, default to project.stretchr.com
+			self.api_version = options[:api_version] || "" # the version of the api to use, for /api/v1.1
+			@params = Stretchr::Bag.new # a bag to hold the params for th url building
 		end
 
 		# Returns the current path that the request is working with
@@ -27,7 +28,15 @@ module Stretchr
 
 		# Builds a URI object
 		def to_uri
-			URI::HTTPS.build(host: base_url, path: merge_path)
+			URI::HTTPS.build(host: base_url, path: merge_path, query: merge_query)
+		end
+
+		# Set params for the url
+		# ==== Examples
+		# r = Stretchr::Request.new
+		# r.param("key", "value")
+		def param(key, value)
+			@params.set(key, value)
 		end
 
 		# Catch everyting not defined and turn it into url parameters
@@ -47,6 +56,11 @@ module Stretchr
 
 		def merge_path
 			"/api/#{api_version}/#{@path_elements.join('/')}"
+		end
+
+		def merge_query
+			return nil if @params.query_string == ""
+			@params.query_string
 		end
 	end
 end

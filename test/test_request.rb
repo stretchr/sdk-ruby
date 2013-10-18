@@ -21,4 +21,10 @@ describe "Request Object" do
 		r = Stretchr::Request.new({base_url: "project.stretchr.com", api_version: "v1.1"})
 		assert_equal "https://project.stretchr.com/api/v1.1/people/1/cars", r.people(1).cars.to_url, "Should have built the url properly"
 	end
+
+	it "Should let you pass in params" do
+		r = Stretchr::Request.new({base_url: "project.stretchr.com"})
+		r.param("key", "asdf")
+		assert r.to_url.include?("?key=asdf"), "Should have added the params"
+	end
 end
