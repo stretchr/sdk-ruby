@@ -36,6 +36,7 @@ module Stretchr
 		end
 
 		# Set params for the url
+		#
 		# ==== Examples
 		# r = Stretchr::Request.new
 		# r.param("key", "value")
@@ -45,6 +46,7 @@ module Stretchr
 		end
 
 		# Set filters for the url
+		#
 		# ==== Examples
 		# r = Stretchr::Request.new
 		# r.where("key", "value")
@@ -54,6 +56,7 @@ module Stretchr
 		end
 
 		# Sets the maximum number of items you want to get back
+		#
 		# ==== Examples
 		# r = Stretchr::Request.new
 		# r.accounts.limit(10).get #=> Returns 10 accounts
@@ -62,6 +65,7 @@ module Stretchr
 		end
 
 		# Tell stretchr to skip some items in the response
+		#
 		# ==== Examples
 		# r = Stretchr::Request.new
 		# r.accounts.limit(10).skip(10).get #=> Returns 10 accounts, starting at 11
@@ -71,6 +75,7 @@ module Stretchr
 
 		# Convenience method for using pages instead of skip values
 		# defaults to 1000 if no limit is known yet
+		#
 		# ==== Examples
 		# r = Stretchr::Request.new
 		# r.accounts.limit(10).page(2).get #=> Returns 10 accounts, starting at 11
@@ -80,6 +85,7 @@ module Stretchr
 		end
 
 		# Set the order of the response
+		#
 		# ==== Examples
 		# r = Stretchr::Request.new
 		# r.accounts.order("-name").get #=> Orders accounts by name, descending
