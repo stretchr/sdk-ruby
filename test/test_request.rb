@@ -134,4 +134,51 @@ describe "Request Object" do
 		r.order("-name,age")
 		assert r.to_uri.validate_param_value("order", "-name,age"), "should have added order attribute"
 	end
+
+	it "Should support the necessary convenience methods" do
+		# READ/GET
+		t = Stretchr::TestTransporter.new
+		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
+		r = Stretchr::Request.new({client: c})
+		r.people.get
+		assert_equal :get, t.requests.first[:method], "Should have performed a get request"
+		r.people.read
+		assert_equal :get, t.requests[1][:method], "Should have performed a get request"
+
+		# REPLACE/PUT
+		t = Stretchr::TestTransporter.new
+		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
+		r = Stretchr::Request.new({client: c})
+		r.people.replace
+		assert_equal :put, t.requests.first[:method], "Should have performed a put request"
+		r.people.put
+		assert_equal :put, t.requests[1][:method], "Should have performed a put request"
+
+		# UPDATE/PATCH
+		t = Stretchr::TestTransporter.new
+		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
+		r = Stretchr::Request.new({client: c})
+		r.people.update
+		assert_equal :patch, t.requests.first[:method], "Should have performed a patch request"
+		r.people.patch
+		assert_equal :patch, t.requests[1][:method], "Should have performed a patch request"
+
+		# CREATE/POST
+		t = Stretchr::TestTransporter.new
+		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
+		r = Stretchr::Request.new({client: c})
+		r.people.create
+		assert_equal :post, t.requests.first[:method], "Should have performed a post request"
+		r.people.post
+		assert_equal :post, t.requests[1][:method], "Should have performed a post request"
+
+		# REMOVE/DELETE
+		t = Stretchr::TestTransporter.new
+		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
+		r = Stretchr::Request.new({client: c})
+		r.people.remove
+		assert_equal :delete, t.requests.first[:method], "Should have performed a delete request"
+		r.people.delete
+		assert_equal :delete, t.requests[1][:method], "Should have performed a delete request"
+	end
 end
