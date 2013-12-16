@@ -102,6 +102,7 @@ module Stretchr
 		def get
 			self.make_request!({uri: self.to_uri, method: :get})
 		end
+		alias :read :get
 
 		# Performs a POST to create a new resource
 		# Returns a Stretchr::Response object
@@ -112,6 +113,7 @@ module Stretchr
 		def create(body)
 			self.make_request!({uri: self.to_uri, method: :post, body: body})
 		end
+		alias :post :create
 
 		# Performs a PUT to replace an object
 		# Returns a Stretchr::Response object
@@ -122,6 +124,7 @@ module Stretchr
 		def replace(body)
 			self.make_request!({uri: self.to_uri, method: :put, body: body})
 		end
+		alias :put :replace
 
 		# Performs a PATCH to update an object
 		# will not delete non-included fields
@@ -134,6 +137,7 @@ module Stretchr
 		def update(body)
 			self.make_request!({uri: self.to_uri, method: :patch, body: body})
 		end
+		alias :patch :update
 
 		# Performs a DELETE to remove an object
 		# deletes an object or entire collection
@@ -145,6 +149,7 @@ module Stretchr
 		def remove
 			self.make_request!({uri: self.to_uri, method: :delete})
 		end
+		alias :delete :remove
 
 		# Actually sends the request to the transporter
 		def make_request!(options = {})

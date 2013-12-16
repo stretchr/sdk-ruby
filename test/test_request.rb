@@ -149,27 +149,27 @@ describe "Request Object" do
 		t = Stretchr::TestTransporter.new
 		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
 		r = Stretchr::Request.new({client: c})
-		r.people.replace
+		r.people.replace({name: "ryan"})
 		assert_equal :put, t.requests.first[:method], "Should have performed a put request"
-		r.people.put
+		r.people.put({name: "ryan"})
 		assert_equal :put, t.requests[1][:method], "Should have performed a put request"
 
 		# UPDATE/PATCH
 		t = Stretchr::TestTransporter.new
 		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
 		r = Stretchr::Request.new({client: c})
-		r.people.update
+		r.people.update({name: "ryan"})
 		assert_equal :patch, t.requests.first[:method], "Should have performed a patch request"
-		r.people.patch
+		r.people.patch({name: "ryan"})
 		assert_equal :patch, t.requests[1][:method], "Should have performed a patch request"
 
 		# CREATE/POST
 		t = Stretchr::TestTransporter.new
 		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
 		r = Stretchr::Request.new({client: c})
-		r.people.create
+		r.people.create({name: "ryan"})
 		assert_equal :post, t.requests.first[:method], "Should have performed a post request"
-		r.people.post
+		r.people.post({name: "ryan"})
 		assert_equal :post, t.requests[1][:method], "Should have performed a post request"
 
 		# REMOVE/DELETE
