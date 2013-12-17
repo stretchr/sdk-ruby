@@ -1,8 +1,14 @@
 # Stretchr gem for Ruby
 
-Easily interact with the stretchr restful data store.
+Easily interact with the Stretchr restful data store.
 
 ## Getting Started
+to install stretchr, run: 
+```
+gem install stretchr
+```
+
+Then, you can use it by:
 
 ```
 stretchr = Stretchr::Client.new(project: "project.company", key: "public_key")
