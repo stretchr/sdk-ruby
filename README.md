@@ -30,7 +30,7 @@ stretchr = Stretchr::Client.new(project: "project.company", key: "public_key", h
     cars = stretchr.cars.get
 
     if cars.success?
-      cars.data["~items"].each do | car |
+      cars.items.each do | car |
         # process each car
       end
     end
@@ -40,6 +40,14 @@ stretchr = Stretchr::Client.new(project: "project.company", key: "public_key", h
 
     # get all books belonging to person 1
     books = stretchr.people(1).books.get
+
+### Reading a Single Resource
+	# get a single car
+    car = stretchr.cars(123).get
+
+    if car.success?
+      puts car.data["make"]
+    end
 
 ### Creating a resource
 
