@@ -4,7 +4,7 @@
 require "yaml"
 module Stretchr
 	def self.config
-		@config ||= YAML::load_file(File.join(Dir.pwd,"lib", "stretchr", "defaults.yaml"))
+		@config ||= YAML::load_file(File.join(File.dirname(__FILE__), "stretchr/defaults.yaml"))
 	end
 end
 
