@@ -181,4 +181,10 @@ describe "Request Object" do
 		r.people.delete
 		assert_equal :delete, t.requests[1][:method], "Should have performed a delete request"
 	end
+
+	it "Should let me set the path manually" do
+		c = Object.new
+		r = Stretchr::Request.new({client: c})
+		assert_equal "people/1/cars", r.at("people/1/cars").path, "Should have set the path completely"
+	end
 end

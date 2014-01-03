@@ -171,6 +171,16 @@ module Stretchr
 			return self
 		end
 
+		# Set the path directly without having to go through it piece by piece
+		# 
+		# ==== Examples
+		# r= Stretchr::Request.new
+		# r.at("people/1/cars").path #=> "people/1/cars"
+		def at(path)
+			@path_elements += path.split("/")
+			return self
+		end
+
 		private
 
 		# Merges the path from the @path_elements

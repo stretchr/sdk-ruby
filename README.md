@@ -41,6 +41,12 @@ stretchr = Stretchr::Client.new(project: "project.company", key: "public_key", h
     # get all books belonging to person 1
     books = stretchr.people(1).books.get
 
+### Using `at`
+In addition to just stringing along your path, you can also set the path explicitely by using `at`
+```
+car = stretchr.at("cars/123").get
+```
+
 ### Reading a Single Resource
 	# get a single car
     car = stretchr.cars(123).get

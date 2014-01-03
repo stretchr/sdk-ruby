@@ -1,6 +1,6 @@
 Gem::Specification.new do |s|
   s.name        = 'stretchr'
-  s.version     = '1.2.3'
+  s.version     = '1.2.4'
   s.summary     = "A gem for managing your stretchr data"
   s.description = "A gem for interacting with your stretchr data"
   s.authors     = ["Ryan Quinn"]
