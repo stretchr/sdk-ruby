@@ -31,6 +31,11 @@ describe "Client" do
 		assert_equal stretchr, r.client, "Should have passed the client into the request"
 	end
 
+	it "Shoudl let me specify the account" do
+		stretchr = Stretchr::Client.new({account: "ryan"})
+		assert_equal "ryan", stretchr.account, "Should have let me set the account"
+	end
+
 	it "Should have a default api_version" do
 		stretchr = Stretchr::Client.new
 		assert stretchr.api_version, "Should have set a default api version"

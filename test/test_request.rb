@@ -8,9 +8,9 @@ describe "Request Object" do
 	end
 
 	it "Should know how to build a complete url including path" do
-		c = Stretchr::Client.new({project: "project", api_version: "v1.1"})
+		c = Stretchr::Client.new({account: "ryan", project: "project", api_version: "v1.1"})
 		r = Stretchr::Request.new({client: c})
-		assert_equal "http://project.stretchr.com/api/v1.1/people/1/cars", r.people(1).cars.to_url, "Should have built the url properly"
+		assert_equal "http://account.stretchr.com/api/v1.1/project/people/1/cars", r.people(1).cars.to_url, "Should have built the url properly"
 	end
 
 	it "Should let you pass in params" do
