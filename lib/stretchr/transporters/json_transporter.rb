@@ -10,7 +10,7 @@ module Stretchr
 		# Expects: {uri: URIOBJECT, body: "body", method: "PUT/PATCH/POST/DELETE/GET", client: stretchr client}
 		def make_request(request)
 			response = nil
-			
+
 			#convert to a json string unless the user already did it...
 			request[:body] = request[:body].to_json unless request[:body].is_a? String
 
