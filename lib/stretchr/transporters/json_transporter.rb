@@ -1,5 +1,7 @@
 require "uri" if !defined? URI
 require "net/http" if !defined? Net
+require "json" if !defined? JSON
+
 module Stretchr
 	class JSONTransporter
 		# Perform the request against stretchr
@@ -8,6 +10,10 @@ module Stretchr
 		# Expects: {uri: URIOBJECT, body: "body", method: "PUT/PATCH/POST/DELETE/GET", client: stretchr client}
 		def make_request(request)
 			response = nil
+			
+			#convert to a json string unless the user already did it...
+			request[:body] = request[:body].to_json unless request[:body].is_a? String
+
 			Net::HTTP.start(request[:uri].host, request[:uri].port) do |http|
 				http_request = generate_request(request)
 				response = http.request http_request # Net::HTTPResponse object
