@@ -11,7 +11,7 @@ gem install stretchr
 Then, you can use it by:
 
 ```
-stretchr = Stretchr::Client.new(project: "project.company", key: "public_key")
+stretchr = Stretchr::Client.new({account: "company", project: "project", key: "public_key"})
 ```
 
 ### Specifying a host
@@ -19,7 +19,7 @@ stretchr = Stretchr::Client.new(project: "project.company", key: "public_key")
 If you're using your own Stretchr install, you can specify the hostname as follows:
 
 ```
-stretchr = Stretchr::Client.new(project: "project.company", key: "public_key", hostname: "hostname.com")
+stretchr = Stretchr::Client.new({account: "account", project: "project", key: "public_key", hostname: "hostname.com"})
 ```
 
 ## Making requests
