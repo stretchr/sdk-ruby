@@ -108,11 +108,11 @@ describe "Request Object" do
 
 	it "should pass the correct uri to the transporter" do
 		t = Stretchr::TestTransporter.new
-		c = Stretchr::Client.new({project: "project", api_version: "v1.1", transporter: t})
+		c = Stretchr::Client.new({account: "account", project: "project", api_version: "v1.1", transporter: t})
 		r = Stretchr::Request.new({client: c})
 		r.people.get
-		assert_equal "http://project.stretchr.com/api/v1.1/people", r.to_url, "Should have saved the right url in the request"
-		assert_equal "http://project.stretchr.com/api/v1.1/people", t.requests.first[:uri].to_s, "Should have created the right URL and sent it to the transporter"
+		assert_equal "http://account.stretchr.com/api/v1.1/project/people", r.to_url, "Should have saved the right url in the request"
+		assert_equal "http://account.stretchr.com/api/v1.1/project/people", t.requests.first[:uri].to_s, "Should have created the right URL and sent it to the transporter"
 	end
 
 	it "Should know how to handle paging" do
