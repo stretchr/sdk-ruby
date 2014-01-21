@@ -185,7 +185,7 @@ module Stretchr
 
 		# Merges the path from the @path_elements
 		def merge_path
-			"/api/#{client.api_version}/#{@path_elements.join('/')}"
+			"/api/#{client.api_version}/#{client.project}/#{@path_elements.join('/')}"
 		end
 
 		# Merges query params and filter params
@@ -198,7 +198,7 @@ module Stretchr
 
 		# Generate the host from the hostname and project
 		def merge_host
-			"#{client.project}.#{client.hostname}"
+			"#{client.account}.#{client.hostname}"
 		end
 	end
 end

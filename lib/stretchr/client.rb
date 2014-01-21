@@ -1,6 +1,6 @@
 module Stretchr
 	class Client
-		attr_accessor :transporter, :api_version, :project, :key, :hostname
+		attr_accessor :transporter, :api_version, :project, :key, :hostname, :account
 		# Initializes a new stretchr client
 		# This is the main entrypoint into working with stretchr
 		#
@@ -15,6 +15,7 @@ module Stretchr
 			self.project = options[:project]
 			self.key = options[:key]
 			self.hostname = options[:hostname] || Stretchr.config["hostname"]
+			self.account = options[:account]
 		end
 
 		# Catches everything you can throw at client and passes it on to a new request object
