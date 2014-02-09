@@ -12,9 +12,9 @@ module Stretchr
 			response = nil
 
 			#convert to a json string unless the user already did it...
-			request[:body] = request[:body].to_json unless request[:body].is_a? String
+			request[:body] = request[:body].to_json unless request[:body].is_a?(String)
 
-			Net::HTTP.start(request[:uri].host, request[:uri].port) do |http|
+			Net::HTTP.start(request[:uri].host, request[:uri].port, {use_ssl: true}) do |http|
 				http_request = generate_request(request)
 				response = http.request http_request # Net::HTTPResponse object
 			end
