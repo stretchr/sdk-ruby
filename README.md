@@ -107,7 +107,7 @@ car = stretchr.at("cars/123").get
 
 ### Data Filters
 ```
-result = stretchr.books.where("name" => "Life of Pi")
+result = stretchr.books.where("name", "Life of Pi")
 ```
 searching will always return an array, even there is only one resource found
 
