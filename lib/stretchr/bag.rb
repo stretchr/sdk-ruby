@@ -19,9 +19,15 @@ module Stretchr
 		# s = Stretchr::Bag.new
 		# s.set("key", "value")
 		# s.get("key") #=> "value"
-		def set(param, value)
-			param = "#{@prefix}#{param}" if @prefix
-			@params[param] = value
+		def set(param, value = nil)
+			if param.is_a?(Hash)
+				param.each_pair do |k, v|
+					set(k, v)
+				end
+			else
+				param = "#{@prefix}#{param}" if @prefix
+				@params[param.to_s] = value unless value == nil
+			end
 		end
 
 		# Get will retrieve a stored value
@@ -34,7 +40,7 @@ module Stretchr
 		# s.get("key") #=> "value"
 		def get(param)
 			param = "#{@prefix}#{param}" if @prefix
-			@params[param]
+			@params[param.to_s]
 		end
 
 		# Returns a url encoded query string of the current stored

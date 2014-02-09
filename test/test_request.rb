@@ -29,6 +29,15 @@ describe "Request Object" do
 		assert_equal "asdf2", uri.get_param("key2").first, "Should have set key2"
 	end
 
+	it "should let you pass in a hash of params" do
+		c = Stretchr::Client.new({project: "project", api_version: "v1.1"})
+		r = Stretchr::Request.new({client: c})
+		r.param({"key1" => "asdf", "key2" => "asdf2"})
+		uri = r.to_uri
+		assert_equal "asdf", uri.get_param("key1").first, "should have set key"
+		assert_equal "asdf2", uri.get_param("key2").first, "Should have set key2"
+	end
+
 	it "should let you add filters" do
 		c = Stretchr::Client.new({project: "project", api_version: "v1.1"})
 		r = Stretchr::Request.new({client: c})
@@ -42,6 +51,14 @@ describe "Request Object" do
 		r = Stretchr::Request.new({client: c})
 		r.where("age", [">21", "<40"])
 		assert_equal [">21", "<40"], r.to_uri.get_param(":age"), "Should have added multiple ages"
+	end
+
+	it "Should let you add hash of filters" do
+		c = Stretchr::Client.new({project: "project", api_version: "v1.1"})
+		r = Stretchr::Request.new({client: c})
+		r.where({name: "ryan", age: 26})
+		assert_equal ["ryan"], r.to_uri.get_param(":name"), "Should have saved both params"
+		assert_equal ["26"], r.to_uri.get_param(":age"), "Should have saved both params"
 	end
 
 	it "Should let you get objects" do

@@ -40,7 +40,7 @@ module Stretchr
 		# ==== Examples
 		# r = Stretchr::Request.new
 		# r.param("key", "value")
-		def param(key, value)
+		def param(key, value = nil)
 			@params.set(key, value)
 			return self
 		end
@@ -50,7 +50,7 @@ module Stretchr
 		# ==== Examples
 		# r = Stretchr::Request.new
 		# r.where("key", "value")
-		def where(key, value)
+		def where(key, value = nil)
 			@filters.set(key, value)
 			return self
 		end

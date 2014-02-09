@@ -106,10 +106,17 @@ car = stretchr.at("cars/123").get
 ## Filtering
 
 ### Data Filters
+
+You can query data by including a `where` function in the request, for example:
 ```
 result = stretchr.books.where("name", "Life of Pi")
+# or
+result = stretchr.books.where({name: "Life of Pi", author: "Yann Martel"})
 ```
-searching will always return an array, even there is only one resource found
+
+You can use any of the query methods listed [in our docs](http://docs.stretchr.com/querying/filters.md#parameter-filtering).
+
+Querying will always return an array, even there is only one resource found
 
 ### Paging, Limits and Sorting
 ```
