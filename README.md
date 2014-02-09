@@ -103,15 +103,23 @@ car = stretchr.at("cars/123").get
       # handle errors
     end
 
+    # you can also use filters to limit what gets deleted
+    
+    if stretchr.people.where("age", ">21").delete.success?
+      #we've deleted everyone over 21
+    else
+      # handle errors
+    end
+
 ## Filtering
 
 ### Data Filters
 
 You can query data by including a `where` function in the request, for example:
 ```
-result = stretchr.books.where("name", "Life of Pi")
+result = stretchr.books.where("name", "Life of Pi").get
 # or
-result = stretchr.books.where({name: "Life of Pi", author: "Yann Martel"})
+result = stretchr.books.where({name: "Life of Pi", author: "Yann Martel"}).get
 ```
 
 You can use any of the query methods listed [in our docs](http://docs.stretchr.com/querying/filters.md#parameter-filtering).
