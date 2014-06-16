@@ -32,7 +32,11 @@ module Stretchr
 
 		# Builds a URI object
 		def to_uri
-			URI::HTTPS.build(host: merge_host, path: merge_path, query: merge_query)
+			if self.client.use_ssl
+				URI::HTTPS.build(host: merge_host, path: merge_path, query: merge_query)
+			else
+				URI::HTTP.build(host: merge_host, path: merge_path, query: merge_query)
+			end
 		end
 
 		# Set params for the url

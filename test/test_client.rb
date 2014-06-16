@@ -56,5 +56,21 @@ describe "Client" do
 		assert_equal Stretchr::JSONTransporter, stretchr.transporter.class, "Should have defaulted to JSON transport"
 	end
 
+	it "Should accept a new hostname as valid" do
+		stretchr = Stretchr::Client.new({account: "asdf", project: "asdf", key: "asdf", hostname: "stretchr.it"})
+		url = stretchr.collection.to_url
+		assert_equal "https://asdf.stretchr.it/api/v1.1/asdf/collection?key=asdf", url, "Expected the URLs to match"
+	end
+
+	it "Should let me use http" do
+		#default to true
+		stretchr = Stretchr::Client.new
+		assert_equal true, stretchr.use_ssl, "Should have default to true for ssl"
+		stretchr = Stretchr::Client.new({account: "asdf", project: "asdf", key: "asdf", use_ssl: false})
+		url = stretchr.collection.to_url
+		assert_equal false, stretchr.use_ssl, "Should have stored the ssl preference"
+		assert_equal "http://asdf.stretchr.com/api/v1.1/asdf/collection?key=asdf", url, "Should have set the url to http"
+	end
+
 
 end
